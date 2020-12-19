@@ -1,0 +1,17 @@
+{
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "required": true,
+  "package": "dev.sapphic.beacons.mixin",
+  "mixins": [
+    "BeaconBlockEntityMixin",
+    "BeaconMenuMixin",
+    "LivingEntityMixin",
+    "MobEffectAccessor",
+    "SlowFallingMixin"
+  ],
+  "refmap": "mixins/beacons/refmap.json",
+  "injectors": {
+    "maxShiftBy": 2
+  }
+}

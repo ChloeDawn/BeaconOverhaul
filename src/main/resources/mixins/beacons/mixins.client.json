@@ -1,0 +1,13 @@
+{
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "required": true,
+  "package": "dev.sapphic.beacons.client.mixin",
+  "client": [
+    "FogRendererMixin",
+    "GameRendererMixin",
+    "LightTextureMixin",
+    "PowerButtonMixin"
+  ],
+  "refmap": "mixins/beacons/refmap.json"
+}
