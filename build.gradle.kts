@@ -1,6 +1,3 @@
-import java.nio.file.Files
-import java.nio.file.Paths
-
 plugins {
   id("fabric-loom") version "0.5.43"
   id("signing")
@@ -13,6 +10,10 @@ minecraft {
   //accessWidener = file(".accesswidener")
   refmapName = "mixins/beacons/refmap.json"
   runDir = "run"
+}
+
+signing {
+  sign(configurations.archives.get())
 }
 
 repositories {
@@ -61,32 +62,5 @@ tasks {
       "Implementation-Vendor" to project.group,
       "Sealed" to "true"
     ))
-  }
-
-  create<Jar>("signJar") {
-    dependsOn("jar")
-
-    val alias = project.property("signing.mods.keyalias")
-    val keystore = project.property("signing.mods.keystore")
-    val password = project.property("signing.mods.password")
-
-    doLast {
-      val libs = Files.createDirectories(Paths.get("$buildDir/libs")).toAbsolutePath()
-      Files.newDirectoryStream(libs, "*.jar").forEach { artifact ->
-        ant.invokeMethod("signjar", mapOf(
-          "destDir" to libs,
-          "jar" to artifact,
-          "alias" to alias,
-          "storepass" to password,
-          "keystore" to keystore,
-          "storetype" to "jks"
-        ))
-        signing.sign(artifact.toFile())
-      }
-    }
-  }
-
-  assemble {
-    dependsOn("signJar")
   }
 }
