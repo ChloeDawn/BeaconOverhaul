@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(MobEffect.class)
 public interface MobEffectAccessor {
-  @Invoker
+  @Invoker("<init>")
   static MobEffect newMobEffect(final MobEffectCategory category, final int color) {
     throw new AssertionError();
   }
