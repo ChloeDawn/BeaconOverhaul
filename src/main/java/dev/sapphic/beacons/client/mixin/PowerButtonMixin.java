@@ -25,9 +25,10 @@ abstract class PowerButtonMixin extends AbstractButton /*extends BeaconScreen.Be
     super(x, y, w, h, label);
   }
 
-  @SuppressWarnings({ "InvalidInjectorMethodSignature", "UnnecessaryQualifiedMemberReference" }) // Plugin doesn't recognize type coercion
+  // FIXME Report plugin issues; it neither recognizes inner class constructor signatures nor type coercion
+  @SuppressWarnings({ "UnnecessaryQualifiedMemberReference", "UnresolvedMixinReference" })
   @Redirect(
-    method = "Lnet/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconPowerButton;<init>(IILnet/minecraft/world/effect/MobEffect;Z)V",
+    method = "Lnet/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconPowerButton;<init>(Lnet/minecraft/client/gui/screens/inventory/BeaconScreen;IILnet/minecraft/world/effect/MobEffect;Z)V",
     at = @At(value = "INVOKE",
       target = "Lnet/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconPowerButton;createTooltip(Lnet/minecraft/world/effect/MobEffect;Z)Lnet/minecraft/network/chat/Component;"),
     require = 1, allow = 1)
