@@ -11,6 +11,6 @@
 
 ![In-game screenshot of additional effects in beacon menu](https://i.imgur.com/7Hmh2cZ.png)
 
-![In-game screenshot of higher potency night vision](https://i.imgur.com/cF05iAw.png)
+![In-game screenshot of higher potency night vision](https://i.imgur.com/bpYifIW.png)
 
-![In-game screenshot of world interaction with long reach applied](https://i.imgur.com/wH31pgD.png)
+![In-game screenshot of world interaction with long reach applied](https://i.imgur.com/KyiAKFg.png)
