@@ -5,9 +5,7 @@
 - Adds night vision, fire resistance, *nutrition*, *long reach*, and slow falling as beacon effects
 - Adds a tier system for beacons, with diamond and netherite structures providing progressively increased effect potency
 - Adds a higher potency of night vision, allowing the player to see everything with midday lighting (full bright) and no fog effects
-- Adds 2 new effects to the game:
-  - Long Reach, increasing interaction reach
-  - Nutrition, passively restoring food levels
+- Adds 2 new effects to the game, Long Reach, increasing interaction reach, and Nutrition, passively restoring food levels
 
 *In future releases, higher potency night vision, long reach, and nutrition may be separated into other mods for modularity.*
 
