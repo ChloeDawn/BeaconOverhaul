@@ -8,7 +8,7 @@ version = "1.0.1"
 
 minecraft {
   //accessWidener = file(".accesswidener")
-  refmapName = "mixins/beacons/refmap.json"
+  refmapName = "mixins/beaconoverhaul/refmap.json"
   runDir = "run"
 }
 

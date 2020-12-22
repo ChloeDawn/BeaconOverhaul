@@ -27,6 +27,6 @@ public final class BeaconMobEffects implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    Registry.register(Registry.MOB_EFFECT, new ResourceLocation("beacons", "long_reach"), LONG_REACH);
+    Registry.register(Registry.MOB_EFFECT, new ResourceLocation("beaconoverhaul", "long_reach"), LONG_REACH);
   }
 }

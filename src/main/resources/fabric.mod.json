@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "beacons",
-  "name": "Beacons",
+  "id": "beaconoverhaul",
+  "name": "Beacon Overhaul",
   "version": "$version",
-  "description": "An overhaul to beacons, introducing a tier system and better effect scaling",
+  "description": "Introduces a tier system and better effect scaling for beacons",
   "license": "Apache-2.0",
   "depends": {
     "fabricloader": ">=0.10.8",
@@ -16,8 +16,8 @@
     ]
   },
   "mixins": [
-    "mixins/beacons/mixins.client.json",
-    "mixins/beacons/mixins.server.json"
+    "mixins/beaconoverhaul/mixins.client.json",
+    "mixins/beaconoverhaul/mixins.server.json"
   ],
   "authors": [
     "Chloe Dawn"

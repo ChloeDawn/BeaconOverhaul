@@ -1,4 +1,4 @@
-rootProject.name = "Beacons"
+rootProject.name = "BeaconOverhaul"
 
 pluginManagement.repositories {
   gradlePluginPortal()

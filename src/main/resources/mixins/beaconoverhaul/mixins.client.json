@@ -9,5 +9,5 @@
     "LightTextureMixin",
     "PowerButtonMixin"
   ],
-  "refmap": "mixins/beacons/refmap.json"
+  "refmap": "mixins/beacon-overhaul/refmap.json"
 }

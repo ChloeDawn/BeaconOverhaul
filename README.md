@@ -1,6 +1,6 @@
-# Beacons
+# Beacon Overhaul
 
-**An overhaul to beacons, introducing a tier system and better effect scaling!**
+**A mod for Minecraft that introduces a tier system and better effect scaling for beacons**
 
 - Adds night vision, fire resistance, long reach (see below), and slow falling as beacon effects
 - Adds a tier system for beacons, with diamond and netherite structures providing progressively increased effect potency
