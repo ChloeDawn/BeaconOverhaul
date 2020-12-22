@@ -6,8 +6,12 @@
   "client": [
     "FogRendererMixin",
     "GameRendererMixin",
+    "GuiMixin",
     "LightTextureMixin",
     "PowerButtonMixin"
   ],
-  "refmap": "mixins/beacon-overhaul/refmap.json"
+  "refmap": "mixins/beaconoverhaul/refmap.json",
+  "injectors": {
+    "maxShiftBy": 5
+  }
 }

@@ -7,9 +7,10 @@
     "BeaconBlockEntityMixin",
     "BeaconMenuMixin",
     "LivingEntityMixin",
-    "MobEffectAccessor"
+    "MobEffectAccessor",
+    "PlayerMixin"
   ],
-  "refmap": "mixins/beacon-overhaul/refmap.json",
+  "refmap": "mixins/beaconoverhaul/refmap.json",
   "injectors": {
     "maxShiftBy": 2
   }
