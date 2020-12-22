@@ -17,7 +17,8 @@ abstract class GuiMixin {
   protected abstract Player getCameraPlayer();
 
   @ModifyVariable(method = "renderPlayerHealth", index = 25,
-    at = @At(value = "INVOKE", target = "Ljava/util/Random;nextInt(I)I", ordinal = 1, shift = Shift.BY, by = 5))
+    at = @At(value = "INVOKE", target = "Ljava/util/Random;nextInt(I)I", ordinal = 1, shift = Shift.BY, by = 5),
+    require = 1, allow = 1)
   private int noNutritionHungerShake(final int randY) {
     final Player player = this.getCameraPlayer();
     if (!player.getFoodData().needsFood()) {
