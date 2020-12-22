@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "dev.sapphic"
-version = "1.0.1"
+version = "1.0.0"
 
 minecraft {
   //accessWidener = file(".accesswidener")
