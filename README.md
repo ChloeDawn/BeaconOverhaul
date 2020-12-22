@@ -13,4 +13,4 @@
 
 ![In-game screenshot of higher potency night vision](https://i.imgur.com/bpYifIW.png)
 
-![In-game screenshot of world interaction with long reach applied](https://i.imgur.com/KyiAKFg.png)
+![In-game screenshot of interaction with long reach](https://i.imgur.com/KyiAKFg.png)
