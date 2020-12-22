@@ -13,7 +13,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 
 public final class BeaconMobEffects implements ModInitializer {
   public static final MobEffect LONG_REACH = MobEffectAccessor.newMobEffect(MobEffectCategory.BENEFICIAL, 0xDEF58F)
-    .addAttributeModifier(ReachEntityAttributes.REACH, "C20A0A8F-83DF-4C37-BC34-3678C24C3F01", 5.0, Operation.ADDITION);
+    .addAttributeModifier(ReachEntityAttributes.REACH, "C20A0A8F-83DF-4C37-BC34-3678C24C3F01", 5.0, Operation.ADDITION)
+    .addAttributeModifier(ReachEntityAttributes.ATTACK_RANGE, "C764C44F-FC32-498B-98EB-B3262BA58B3B", 5.0, Operation.ADDITION);
 
   public static void appendAdditionalEffects(final MobEffect[][] effects) {
     effects[0] = ObjectArrays.concat(effects[0], MobEffects.NIGHT_VISION);
