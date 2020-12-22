@@ -7,8 +7,7 @@
     "BeaconBlockEntityMixin",
     "BeaconMenuMixin",
     "LivingEntityMixin",
-    "MobEffectAccessor",
-    "SlowFallingMixin"
+    "MobEffectAccessor"
   ],
   "refmap": "mixins/beacon-overhaul/refmap.json",
   "injectors": {
