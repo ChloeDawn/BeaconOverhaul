@@ -18,7 +18,7 @@ public final class BeaconMobEffects implements ModInitializer {
     .addAttributeModifier(ReachEntityAttributes.REACH, "C20A0A8F-83DF-4C37-BC34-3678C24C3F01", 5.0, Operation.ADDITION)
     .addAttributeModifier(ReachEntityAttributes.ATTACK_RANGE, "C764C44F-FC32-498B-98EB-B3262BA58B3B", 5.0, Operation.ADDITION);
 
-  public static final MobEffect NUTRITION = new MobEffect(MobEffectCategory.BENEFICIAL, 0xFFFFFF) {
+  public static final MobEffect NUTRITION = new MobEffect(MobEffectCategory.BENEFICIAL, 0xC75F79) {
     @Override
     public void applyEffectTick(final LivingEntity entity, final int amplifier) {
       if (entity instanceof Player) {
