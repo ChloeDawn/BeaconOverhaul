@@ -6,6 +6,7 @@
   "description": "Introduces a tier system and better effect scaling for beacons",
   "license": "Apache-2.0",
   "depends": {
+    "minecraft": ">=1.17-alpha.20.49.a",
     "fabricloader": ">=0.10.8",
     "fabric-resource-loader-v0": ">=0.3.5",
     "reach-entity-attributes": ">=1.0.1"
@@ -21,5 +22,10 @@
   ],
   "authors": [
     "Chloe Dawn"
-  ]
+  ],
+  "contact": {
+    "homepage": "https://git.io/JLPmd",
+    "sources": "https://git.io/JLPmd",
+    "issues": "https://git.io/JLPm5"
+  }
 }
