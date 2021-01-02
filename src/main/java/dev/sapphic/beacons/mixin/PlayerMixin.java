@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(Player.class)
 abstract class PlayerMixin extends LivingEntity {
-  protected PlayerMixin(final EntityType<? extends LivingEntity> type, final Level level) {
+  PlayerMixin(final EntityType<? extends LivingEntity> type, final Level level) {
     super(type, level);
   }
 
