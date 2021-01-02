@@ -16,8 +16,6 @@ import org.jetbrains.annotations.Nullable;
 public interface TieredBeacon {
   BeaconTier getTier();
 
-  void setTier(final BeaconTier tier);
-
   static int updateBaseAndTier(
     final BeaconBlockEntity beacon, final Level level, final int x, final int y, final int z
   ) {
@@ -53,7 +51,7 @@ public interface TieredBeacon {
       layer++;
     }
     //noinspection CastToIncompatibleInterface
-    ((TieredBeacon) beacon).setTier(BeaconTier.of(diamond, netherite));
+    ((MutableTieredBeacon) beacon).setTier(BeaconTier.of(diamond, netherite));
     return levels;
   }
 

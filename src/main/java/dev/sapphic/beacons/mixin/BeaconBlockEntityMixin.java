@@ -1,6 +1,7 @@
 package dev.sapphic.beacons.mixin;
 
 import dev.sapphic.beacons.BeaconTier;
+import dev.sapphic.beacons.MutableTieredBeacon;
 import dev.sapphic.beacons.TieredBeacon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.MenuProvider;
@@ -25,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Objects;
 
 @Mixin(BeaconBlockEntity.class)
-abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvider, TieredBeacon {
+abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvider, MutableTieredBeacon {
   @Shadow @Final @Mutable private ContainerData dataAccess;
 
   @Unique
