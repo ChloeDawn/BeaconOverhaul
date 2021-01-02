@@ -21,36 +21,38 @@ public interface TieredBeacon {
   static int updateBaseAndTier(
     final BeaconBlockEntity beacon, final Level level, final int x, final int y, final int z
   ) {
-    int oy;
     int levels = 0;
-    int layers = 1;
-    boolean diamond = true;
     boolean netherite = true;
-    //noinspection NestedAssignment TODO This needs rewriting, it's a mess
-    while ((layers <= 4) && ((oy = y - layers) >= level.getMinBuildHeight())) {
+    boolean diamond = true;
+    int layer = 1;
+    while (layer <= 4) {
+      final int oy = y - layer;
+      if (oy < level.getMinBuildHeight()) {
+        break;
+      }
       boolean valid = true;
-      layerCheck:
-      for (int ox = x - layers; (ox <= (x + layers)) && valid; ++ox) {
-        for (int oz = z - layers; oz <= (z + layers); ++oz) {
+      for(int ox = x - layer; (ox <= (x + layer)) && valid; ++ox) {
+        for(int oz = z - layer; oz <= (z + layer); ++oz) {
           final BlockState state = level.getBlockState(new BlockPos(ox, oy, oz));
-          if (state.is(BlockTags.BEACON_BASE_BLOCKS)) {
+          if (!state.is(BlockTags.BEACON_BASE_BLOCKS)) {
+            valid = false;
+            break;
+          }
+          if (state.getBlock() != Blocks.NETHERITE_BLOCK) {
+            netherite = false;
             if (state.getBlock() != Blocks.DIAMOND_BLOCK) {
               diamond = false;
-              if (state.getBlock() != Blocks.NETHERITE_BLOCK) {
-                netherite = false;
-              }
             }
-            continue;
           }
-          valid = false;
-          continue layerCheck;
+          levels = layer;
+          layer++;
         }
       }
       if (!valid) {
-        return levels;
+        break;
       }
-      levels = layers;
-      layers++;
+      levels = layer;
+      layer++;
     }
     //noinspection CastToIncompatibleInterface
     ((TieredBeacon) beacon).setTier(BeaconTier.of(diamond, netherite));
