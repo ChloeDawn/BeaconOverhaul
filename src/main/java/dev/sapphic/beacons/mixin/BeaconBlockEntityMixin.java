@@ -1,6 +1,5 @@
 package dev.sapphic.beacons.mixin;
 
-import dev.sapphic.beacons.BeaconMobEffects;
 import dev.sapphic.beacons.BeaconTier;
 import dev.sapphic.beacons.TieredBeacon;
 import net.minecraft.core.BlockPos;
@@ -19,7 +18,6 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,9 +26,6 @@ import java.util.Objects;
 
 @Mixin(BeaconBlockEntity.class)
 abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvider, TieredBeacon {
-  @SuppressWarnings("all") // Code style
-  @Shadow @Final public static MobEffect[][] BEACON_EFFECTS;
-
   @Shadow @Final @Mutable private ContainerData dataAccess;
 
   @Unique
@@ -50,14 +45,6 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   @Override
   public final void setTier(final BeaconTier tier) {
     this.tier = Objects.requireNonNull(tier);
-  }
-
-  @SuppressWarnings("UnresolvedMixinReference")
-  @Inject(method = "<clinit>",
-    at = @At(value = "INVOKE", target = "Ljava/util/Arrays;stream([Ljava/lang/Object;)Ljava/util/stream/Stream;",
-      ordinal = 0, shift = Shift.BEFORE), require = 1, allow = 1)
-  private static void appendAdditionalEffects(final CallbackInfo ci) {
-    BeaconMobEffects.appendAdditionalEffects(BEACON_EFFECTS);
   }
 
   @Redirect(method = "tick", at = @At(value = "INVOKE",
@@ -87,6 +74,9 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   @Inject(method = "<init>", at = @At("RETURN"), require = 1, allow = 1)
   private void injectTierData(final CallbackInfo ci) {
     final ContainerData delegate = this.dataAccess;
+    if (delegate.getCount() != 3) {
+      throw new IllegalStateException("Unsupported container data " + delegate);
+    }
     this.dataAccess = new ContainerData() {
       @Override
       public int get(final int index) {

@@ -32,7 +32,7 @@ abstract class PowerButtonMixin extends AbstractButton /*extends BeaconScreen.Be
     at = @At(value = "INVOKE",
       target = "Lnet/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconPowerButton;createTooltip(Lnet/minecraft/world/effect/MobEffect;Z)Lnet/minecraft/network/chat/Component;"),
     require = 1, allow = 1)
-  private Component fixSuffixes(
+  private Component createTieredTooltip(
     @Coerce final AbstractButton button, final MobEffect effect, final boolean primary,
     // Enclosing method parameters
     final BeaconScreen screen, final int x, final int y, final MobEffect effect1, final boolean primary1

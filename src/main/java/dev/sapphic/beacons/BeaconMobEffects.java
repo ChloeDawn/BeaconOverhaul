@@ -12,6 +12,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 
 public final class BeaconMobEffects implements ModInitializer {
   public static final MobEffect LONG_REACH = MobEffectAccessor.newMobEffect(MobEffectCategory.BENEFICIAL, 0xDEF58F)
@@ -34,7 +35,8 @@ public final class BeaconMobEffects implements ModInitializer {
     }
   };
 
-  public static void appendAdditionalEffects(final MobEffect[][] effects) {
+  private static void appendAdditionalEffects() {
+    final MobEffect[][] effects = BeaconBlockEntity.BEACON_EFFECTS;
     effects[0] = ObjectArrays.concat(effects[0], MobEffects.NIGHT_VISION);
     effects[1] = ObjectArrays.concat(effects[1], MobEffects.FIRE_RESISTANCE);
     effects[2] = ObjectArrays.concat(effects[2], NUTRITION);
@@ -43,6 +45,10 @@ public final class BeaconMobEffects implements ModInitializer {
 
   private static MobEffect[] concat(final MobEffect[] first, final MobEffect... second) {
     return ObjectArrays.concat(first, second, MobEffect.class);
+  }
+
+  public BeaconMobEffects() {
+    appendAdditionalEffects();
   }
 
   @Override

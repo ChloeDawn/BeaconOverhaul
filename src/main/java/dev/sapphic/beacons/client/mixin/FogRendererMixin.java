@@ -17,7 +17,7 @@ abstract class FogRendererMixin {
   @Redirect(method = "setupColor", at = @At(value = "INVOKE",
     target = "Lnet/minecraft/world/entity/LivingEntity;hasEffect(Lnet/minecraft/world/effect/MobEffect;)Z",
     ordinal = 1), require = 1, allow = 1)
-  private static boolean excludeBrighterNightVision(final LivingEntity entity, final MobEffect effect) {
+  private static boolean hasOnlyBaseNightVision(final LivingEntity entity, final MobEffect effect) {
     final @Nullable MobEffectInstance nightVision = entity.getEffect(effect);
     return (nightVision != null) && (nightVision.getAmplifier() < 1);
   }

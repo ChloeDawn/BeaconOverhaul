@@ -23,7 +23,7 @@ abstract class LightTextureMixin /*implements AutoCloseable*/ {
   @ModifyVariable(method = "updateLightTexture", index = 12,
     at = @At(value = "INVOKE", target = "Lcom/mojang/math/Vector3f;set(FFF)V", shift = Shift.BEFORE),
     require = 1, allow = 1)
-  private float getNightVisionBrightness(final float skyLight) {
+  private float fullBrightNightVision(final float skyLight) {
     final @Nullable LocalPlayer player = this.minecraft.player;
     if (player != null) {
       final @Nullable MobEffectInstance nightVision = player.getEffect(MobEffects.NIGHT_VISION);

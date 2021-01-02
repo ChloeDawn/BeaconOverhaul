@@ -17,7 +17,7 @@ abstract class GameRendererMixin implements ResourceManagerReloadListener/*, Aut
   @SuppressWarnings("ConstantConditions") // getEffect is nullable but asserted prior in target
   @ModifyVariable(method = "getNightVisionScale",
     at = @At(value = "CONSTANT", args = "intValue=200", shift = Shift.BEFORE), require = 1, allow = 1)
-  private static int noFlickerWhenAmbient(final int duration, final LivingEntity entity) {
+  private static int noNightVisionFlickerWhenAmbient(final int duration, final LivingEntity entity) {
     return entity.getEffect(MobEffects.NIGHT_VISION).isAmbient() ? (200 + 1) : duration;
   }
 }
