@@ -6,7 +6,7 @@ public enum BeaconTier {
   private static final BeaconTier[] TIERS = values();
 
   public static BeaconTier valueOf(final int ordinal) {
-    return TIERS[ordinal & 2];
+    return TIERS[ordinal % 3];
   }
 
   static BeaconTier of(final boolean diamond, final boolean netherite) {
