@@ -16,6 +16,6 @@ public enum BeaconTier {
     if (!diamond) {
       return IRON;
     }
-    throw new IllegalStateException();
+    throw new IllegalArgumentException();
   }
 }
