@@ -38,14 +38,12 @@ public interface TieredBeacon {
             valid = false;
             break;
           }
-          if (state.getBlock() != Blocks.NETHERITE_BLOCK) {
+          if (!state.is(Blocks.NETHERITE_BLOCK)) {
             netherite = false;
-            if (state.getBlock() != Blocks.DIAMOND_BLOCK) {
-              diamond = false;
-            }
           }
-          levels = layer;
-          layer++;
+          if (!state.is(Blocks.DIAMOND_BLOCK)) {
+            diamond = false;
+          }
         }
       }
       if (!valid) {
