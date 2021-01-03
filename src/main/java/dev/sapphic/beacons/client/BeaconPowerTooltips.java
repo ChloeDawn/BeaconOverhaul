@@ -19,8 +19,10 @@ public final class BeaconPowerTooltips {
 
   public static Component createTooltip(final BeaconScreen screen, final MobEffect effect, final boolean primary) {
     final TranslatableComponent component = new TranslatableComponent(effect.getDescriptionId());
+
     if (effect != MobEffects.SLOW_FALLING) {
       boolean additional = !primary;
+
       if (additional) {
         for (final MobEffect e : BeaconBlockEntity.BEACON_EFFECTS[3]) {
           if (effect.equals(e)) {
@@ -29,15 +31,19 @@ public final class BeaconPowerTooltips {
           }
         }
       }
+
       int index = additional ? 1 : 0;
+
       if (effect != MobEffects.NIGHT_VISION) {
         //noinspection CastToIncompatibleInterface
         index += ((TieredBeacon) screen.getMenu()).getTier().ordinal();
       }
+
       if (index > 0) {
         return component.append(EFFECT_SUFFIXES[index - 1]);
       }
     }
+
     return component;
   }
 }

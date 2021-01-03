@@ -6,16 +6,18 @@ public enum BeaconTier {
   private static final BeaconTier[] TIERS = values();
 
   public static BeaconTier valueOf(final int ordinal) {
-    return TIERS[ordinal % 3];
+    return TIERS[ordinal % TIERS.length];
   }
 
   static BeaconTier of(final boolean diamond, final boolean netherite) {
     if (diamond != netherite) {
       return netherite ? NETHERITE : DIAMOND;
     }
+
     if (!diamond) {
       return IRON;
     }
+
     throw new IllegalArgumentException();
   }
 }

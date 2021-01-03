@@ -23,9 +23,7 @@ public final class BeaconMobEffects implements ModInitializer {
     @Override
     public void applyEffectTick(final LivingEntity entity, final int amplifier) {
       if (entity instanceof Player) {
-        if (((Player) entity).getFoodData().needsFood()) {
-          ((Player) entity).getFoodData().eat(1, 0.0F);
-        }
+        ((Player) entity).getFoodData().eat(1, 0.0F);
       }
     }
 
@@ -35,8 +33,13 @@ public final class BeaconMobEffects implements ModInitializer {
     }
   };
 
+  public BeaconMobEffects() {
+    appendAdditionalEffects();
+  }
+
   private static void appendAdditionalEffects() {
     final MobEffect[][] effects = BeaconBlockEntity.BEACON_EFFECTS;
+
     effects[0] = ObjectArrays.concat(effects[0], MobEffects.NIGHT_VISION);
     effects[1] = ObjectArrays.concat(effects[1], MobEffects.FIRE_RESISTANCE);
     effects[2] = ObjectArrays.concat(effects[2], NUTRITION);
@@ -45,10 +48,6 @@ public final class BeaconMobEffects implements ModInitializer {
 
   private static MobEffect[] concat(final MobEffect[] first, final MobEffect... second) {
     return ObjectArrays.concat(first, second, MobEffect.class);
-  }
-
-  public BeaconMobEffects() {
-    appendAdditionalEffects();
   }
 
   @Override

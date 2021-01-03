@@ -62,26 +62,33 @@ public interface TieredBeacon {
     if (level.isClientSide || (primary == null)) {
       return;
     }
+
     //noinspection CastToIncompatibleInterface
     final int tier = ((TieredBeacon) beacon).getTier().ordinal();
     int primaryAmplifier = tier;
     int secondaryAmplifier = tier;
+
     if (primary == MobEffects.NIGHT_VISION) {
       primaryAmplifier = 0;
     }
+
     if (secondary == MobEffects.SLOW_FALLING) {
       secondaryAmplifier = 0;
     }
+
     if ((levels >= 4) && (primary == secondary)) {
       primaryAmplifier = Math.min(primaryAmplifier, secondaryAmplifier);
       primaryAmplifier++;
     }
+
     final double radius = (levels * 10) + (10 * (tier + 1));
     final int duration = ((9 * (tier + 1)) + (levels * 2)) * 20;
     final AABB range = new AABB(pos).inflate(radius).expandTowards(0.0, level.getHeight(), 0.0);
     final boolean uniqueSecondary = (levels >= 4) && (primary != secondary) && (secondary != null);
+
     for (final Player player : level.getEntitiesOfClass(Player.class, range)) {
       player.addEffect(new MobEffectInstance(primary, duration, primaryAmplifier, true, true));
+
       if (uniqueSecondary) {
         player.addEffect(new MobEffectInstance(secondary, duration, secondaryAmplifier, true, true));
       }

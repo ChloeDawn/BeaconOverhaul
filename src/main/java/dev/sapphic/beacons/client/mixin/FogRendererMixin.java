@@ -19,6 +19,7 @@ abstract class FogRendererMixin {
     ordinal = 1), require = 1, allow = 1)
   private static boolean hasOnlyBaseNightVision(final LivingEntity entity, final MobEffect effect) {
     final @Nullable MobEffectInstance nightVision = entity.getEffect(effect);
+
     return (nightVision != null) && (nightVision.getAmplifier() < 1);
   }
 }

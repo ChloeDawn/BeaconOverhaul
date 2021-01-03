@@ -25,12 +25,15 @@ abstract class LightTextureMixin /*implements AutoCloseable*/ {
     require = 1, allow = 1)
   private float fullBrightNightVision(final float skyLight) {
     final @Nullable LocalPlayer player = this.minecraft.player;
+
     if (player != null) {
       final @Nullable MobEffectInstance nightVision = player.getEffect(MobEffects.NIGHT_VISION);
+
       if ((nightVision != null) && (nightVision.getAmplifier() > 0)) {
         return 15.0F;
       }
     }
+
     return skyLight;
   }
 }

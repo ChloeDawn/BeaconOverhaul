@@ -75,15 +75,18 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   @Inject(method = "<init>", at = @At("RETURN"), require = 1, allow = 1)
   private void injectTierData(final CallbackInfo ci) {
     final ContainerData delegate = this.dataAccess;
+
     if (delegate.getCount() != 3) {
       throw new IllegalStateException("Unsupported container data " + delegate);
     }
+
     this.dataAccess = new ContainerData() {
       @Override
       public int get(final int index) {
         if (index == 3) {
           return BeaconBlockEntityMixin.this.tier.ordinal();
         }
+
         return delegate.get(index);
       }
 
@@ -91,8 +94,9 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
       public void set(final int index, final int value) {
         if (index == 3) {
           BeaconBlockEntityMixin.this.tier = BeaconTier.valueOf(value);
+        } else {
+          delegate.set(index, value);
         }
-        delegate.set(index, value);
       }
 
       @Override
