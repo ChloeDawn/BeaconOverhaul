@@ -6,6 +6,10 @@ plugins {
 group = "dev.sapphic"
 version = "1.0.0"
 
+java {
+  withSourcesJar()
+}
+
 minecraft {
   //accessWidener = file(".accesswidener")
   refmapName = "mixins/beaconoverhaul/refmap.json"
@@ -68,5 +72,9 @@ tasks {
       "Implementation-Vendor" to project.group,
       "Sealed" to "true"
     ))
+  }
+
+  named<Sign>("signArchives") {
+    dependsOn("remapSourcesJar")
   }
 }
