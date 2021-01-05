@@ -3,7 +3,7 @@
   "id": "beaconoverhaul",
   "name": "Beacon Overhaul",
   "version": "$version",
-  "description": "§fIntroduces a tier system and better effect scaling for beacons§r\n- Adds night vision, fire resistance, §onutrition§r, §olong reach§r, and slow falling as beacon effects\n- Adds a tier system for beacons, with diamond and netherite structures providing progressively increased effect potency\n- Adds a higher potency of night vision, allowing the player to see everything with midday lighting (full bright) and no fog effects\n- Adds 2 new effects to the game, Long Reach, increasing interaction reach, and Nutrition, passively restoring food levels",
+  "description": "Introduces a tier system and better effect scaling for beacons\n- Adds night vision, fire resistance, §onutrition§r, §olong reach§r, and slow falling as beacon effects\n- Adds a tier system for beacons, with diamond and netherite structures providing progressively increased effect potency\n- Adds a higher potency of night vision, allowing the player to see everything with midday lighting (full bright) and no fog effects\n- Adds 2 new effects to the game, Long Reach, increasing interaction reach, and Nutrition, passively restoring food levels",
   "license": "Apache-2.0",
   "icon": "pack.png",
   "depends": {
