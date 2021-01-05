@@ -16,3 +16,5 @@
 ![In-game screenshot of higher potency night vision](https://i.imgur.com/bpYifIW.png)
 
 ![In-game screenshot of interaction with long reach](https://i.imgur.com/KyiAKFg.png)
+
+***Logo design by [@bumble_dani](https://twitter.com/bumble_dani)***
