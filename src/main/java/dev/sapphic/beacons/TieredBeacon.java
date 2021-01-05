@@ -14,6 +14,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 public interface TieredBeacon {
+
   BeaconTier getTier();
 
   static int updateBaseAndTier(
@@ -50,8 +51,7 @@ public interface TieredBeacon {
       levels = layer;
       layer++;
     }
-    //noinspection CastToIncompatibleInterface
-    ((MutableTieredBeacon) beacon).setTier(BeaconTier.of(diamond, netherite));
+    BeaconTier.set(beacon, BeaconTier.of(diamond, netherite));
     return levels;
   }
 
@@ -63,8 +63,7 @@ public interface TieredBeacon {
       return;
     }
 
-    //noinspection CastToIncompatibleInterface
-    final int tier = ((TieredBeacon) beacon).getTier().ordinal();
+    final int tier = BeaconTier.get(beacon).ordinal();
     int primaryAmplifier = tier;
     int secondaryAmplifier = tier;
 

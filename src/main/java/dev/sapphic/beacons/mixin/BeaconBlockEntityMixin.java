@@ -19,9 +19,12 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
@@ -72,37 +75,29 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
     TieredBeacon.applyTieredEffects(beacon, level, pos, levels, primary, secondary);
   }
 
-  @Inject(method = "<init>", at = @At("RETURN"), require = 1, allow = 1)
-  private void injectTierData(final CallbackInfo ci) {
-    final ContainerData delegate = this.dataAccess;
+  @Mixin(targets = "net.minecraft.world.level.block.entity.BeaconBlockEntity$1")
+  private abstract static class DataAccessMixin implements ContainerData {
+    @SuppressWarnings("PackageVisibleField")
+    @Shadow(aliases = "this$0") @Final BeaconBlockEntity this$0;
 
-    if (delegate.getCount() != 3) {
-      throw new IllegalStateException("Unsupported container data " + delegate);
+    @Inject(method = "get", at = @At("HEAD"), cancellable = true)
+    private void tryGetTier(final int index, final CallbackInfoReturnable<Integer> cir) {
+      if (index == 3) {
+        cir.setReturnValue(BeaconTier.get(this.this$0).ordinal());
+      }
     }
 
-    this.dataAccess = new ContainerData() {
-      @Override
-      public int get(final int index) {
-        if (index == 3) {
-          return BeaconBlockEntityMixin.this.tier.ordinal();
-        }
-
-        return delegate.get(index);
+    @Inject(method = "set", at = @At("HEAD"), cancellable = true)
+    private void trySetTier(final int index, final int value, final CallbackInfo ci) {
+      if (index == 3) {
+        BeaconTier.set(this.this$0, BeaconTier.valueOf(value));
+        ci.cancel();
       }
+    }
 
-      @Override
-      public void set(final int index, final int value) {
-        if (index == 3) {
-          BeaconBlockEntityMixin.this.tier = BeaconTier.valueOf(value);
-        } else {
-          delegate.set(index, value);
-        }
-      }
-
-      @Override
-      public int getCount() {
-        return 4;
-      }
-    };
+    @ModifyConstant(method = "getCount", constant = @Constant(intValue = 3))
+    private int expandDataCount(final int count) {
+      return 4;
+    }
   }
 }

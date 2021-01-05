@@ -9,6 +9,14 @@ public enum BeaconTier {
     return TIERS[ordinal % TIERS.length];
   }
 
+  public static BeaconTier get(final Object o) {
+    return ((TieredBeacon) o).getTier();
+  }
+
+  public static void set(final Object o, final BeaconTier tier) {
+    ((MutableTieredBeacon) o).setTier(tier);
+  }
+
   static BeaconTier of(final boolean diamond, final boolean netherite) {
     if (diamond != netherite) {
       return netherite ? NETHERITE : DIAMOND;

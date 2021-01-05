@@ -5,6 +5,7 @@
   "package": "dev.sapphic.beacons.mixin",
   "mixins": [
     "BeaconBlockEntityMixin",
+    "BeaconBlockEntityMixin$DataAccessMixin",
     "BeaconMenuMixin",
     "LivingEntityMixin",
     "MobEffectAccessor",

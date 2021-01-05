@@ -1,6 +1,6 @@
 package dev.sapphic.beacons.client;
 
-import dev.sapphic.beacons.TieredBeacon;
+import dev.sapphic.beacons.BeaconTier;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
@@ -35,8 +35,7 @@ public final class BeaconPowerTooltips {
       int index = additional ? 1 : 0;
 
       if (effect != MobEffects.NIGHT_VISION) {
-        //noinspection CastToIncompatibleInterface
-        index += ((TieredBeacon) screen.getMenu()).getTier().ordinal();
+        index += BeaconTier.get(screen.getMenu()).ordinal();
       }
 
       if (index > 0) {
