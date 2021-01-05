@@ -9,7 +9,7 @@
 
 *In future releases higher potency night vision, long reach, and nutrition may be separated into other mods for modularity.*
 
-<span style="color:red">This mod requires Minecraft 20w49a or newer</span>
+**This mod requires Minecraft 20w49a or newer**
 
 ![In-game screenshot of additional effects in beacon menu](https://i.imgur.com/7Hmh2cZ.png)
 
