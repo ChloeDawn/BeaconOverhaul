@@ -14,7 +14,6 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 public interface TieredBeacon {
-
   BeaconTier getTier();
 
   static int updateBaseAndTier(
