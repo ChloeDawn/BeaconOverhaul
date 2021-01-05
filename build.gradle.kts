@@ -26,11 +26,6 @@ repositories {
       includeGroup("com.jamieswhiteshirt")
     }
   }
-  maven("https://jitpack.io") {
-    content {
-      includeGroup("com.github.terraformersmc")
-    }
-  }
 }
 
 dependencies {
@@ -41,7 +36,7 @@ dependencies {
   implementation("org.checkerframework:checker-qual:3.8.0")
   modImplementation(include("net.fabricmc.fabric-api:fabric-resource-loader-v0:0.4.0+27f445e78e")!!)
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:1.0.1")!!)
-  modRuntime("com.github.terraformersmc:modmenu:eb6c5b9")
+  modRuntime("io.github.prospector:modmenu:2.0.0-beta.1+build.2")
 }
 
 tasks {
