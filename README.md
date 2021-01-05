@@ -7,7 +7,9 @@
 - Adds a higher potency of night vision, allowing the player to see everything with midday lighting (full bright) and no fog effects
 - Adds 2 new effects to the game, Long Reach, increasing interaction reach, and Nutrition, passively restoring food levels
 
-*In future releases, higher potency night vision, long reach, and nutrition may be separated into other mods for modularity.*
+*In future releases higher potency night vision, long reach, and nutrition may be separated into other mods for modularity.*
+
+<span style="color:red">This mod requires Minecraft 20w49a or newer</span>
 
 ![In-game screenshot of additional effects in beacon menu](https://i.imgur.com/7Hmh2cZ.png)
 
