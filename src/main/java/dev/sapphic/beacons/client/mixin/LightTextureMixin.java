@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import org.jetbrains.annotations.Nullable;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,9 +21,10 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 abstract class LightTextureMixin /*implements AutoCloseable*/ {
   @Shadow @Final private Minecraft minecraft;
 
-  @ModifyVariable(method = "updateLightTexture", index = 12,
-    at = @At(value = "INVOKE", target = "Lcom/mojang/math/Vector3f;set(FFF)V", shift = Shift.BEFORE),
-    require = 1, allow = 1)
+  @ModifyVariable(method = "updateLightTexture(F)V",
+    index = 12, require = 1, allow = 1,
+    at = @At(shift = Shift.BEFORE, value = "INVOKE", opcode = Opcodes.INVOKEVIRTUAL,
+      target = "Lcom/mojang/math/Vector3f;set(FFF)V"))
   private float fullBrightNightVision(final float skyLight) {
     final @Nullable LocalPlayer player = this.minecraft.player;
 

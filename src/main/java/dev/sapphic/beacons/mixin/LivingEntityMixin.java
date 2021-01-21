@@ -25,17 +25,23 @@ abstract class LivingEntityMixin extends Entity {
   @Shadow
   public abstract boolean hasEffect(final MobEffect effect);
 
-  @Inject(method = "<init>", at = @At("RETURN"), require = 1, allow = 1)
+  @Inject(method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V",
+    require = 1, allow = 1,
+    at = @At("RETURN"))
   private void storeDefaultMaxStepUp(final CallbackInfo ci) {
     this.defaultMaxStepUp = this.maxUpStep;
   }
 
-  @Inject(method = "tickEffects", at = @At("HEAD"), require = 1, allow = 1)
+  @Inject(method = "tickEffects()V",
+    require = 1, allow = 1,
+    at = @At("HEAD"))
   private void updateJumpBoostStepAssist(final CallbackInfo ci) {
     this.maxUpStep = this.hasEffect(MobEffects.JUMP) ? 1.0F : this.defaultMaxStepUp;
   }
 
-  @ModifyConstant(method = "travel", constant = @Constant(doubleValue = 0.01, ordinal = 0), require = 1, allow = 1)
+  @ModifyConstant(method = "travel(Lnet/minecraft/world/phys/Vec3;)V",
+    require = 1, allow = 1,
+    constant = @Constant(doubleValue = 0.01, ordinal = 0))
   private double dropIfCrouching(final double fallDelta) {
     return (this.hasEffect(MobEffects.SLOW_FALLING) && !this.isCrouching()) ? fallDelta : 0.08;
   }

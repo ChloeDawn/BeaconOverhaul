@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -52,17 +53,22 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
     this.tier = Objects.requireNonNull(tier);
   }
 
-  @Redirect(method = "tick", at = @At(value = "INVOKE",
-    target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;updateBase(III)V"),
-    require = 1, allow = 1)
+  // TODO Rewrite as variable and argument modifications? (1.16)
+  @Redirect(method = "tick()V",
+    require = 1, allow = 1,
+    at = @At(value = "INVOKE", opcode = Opcodes.INVOKEVIRTUAL,
+      target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;updateBase(III)V"))
   private void updateBaseAndTier(final BeaconBlockEntity beacon, final int x, final int y, final int z) {
+    assert this.level != null;
+
     this.levels = TieredBeacon.updateBaseAndTier(beacon, this.level, x, y, z);
   }
 
   // TODO Rewrite as variable and argument modifications?
-  @Redirect(method = "tick", at = @At(value = "INVOKE",
-    target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;applyEffects()V"),
-    require = 1, allow = 1)
+  @Redirect(method = "tick()V",
+    require = 1, allow = 1,
+    at = @At(value = "INVOKE", opcode = Opcodes.INVOKEVIRTUAL,
+      target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;applyEffects()V"))
   private void applyTieredEffects(final BeaconBlockEntity beacon) {
     assert this.level != null;
 
@@ -71,7 +77,6 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
 
   @Mixin(targets = "net.minecraft.world.level.block.entity.BeaconBlockEntity$1")
   private abstract static class DataAccessMixin implements ContainerData {
-    @SuppressWarnings("PackageVisibleField")
     @Shadow(aliases = "this$0") @Final BeaconBlockEntity this$0;
 
     @Inject(method = "get(I)I", at = @At("HEAD"), cancellable = true)

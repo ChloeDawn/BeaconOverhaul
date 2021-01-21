@@ -26,14 +26,17 @@ abstract class BeaconMenuMixin extends AbstractContainerMenu implements TieredBe
     return BeaconTier.valueOf(this.beaconData.get(3));
   }
 
-  @ModifyConstant(method = "<init>(ILnet/minecraft/world/Container;)V", constant = @Constant(intValue = 3))
+  @ModifyConstant(method = "<init>(ILnet/minecraft/world/Container;)V",
+    require = 1, allow = 1,
+    constant = @Constant(intValue = 3))
   private static int getNewDataCount(final int dataCount) {
     return 4;
   }
 
   @ModifyConstant(
     method = "<init>(ILnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
-    constant = @Constant(intValue = 3, ordinal = 0), require = 1, allow = 1)
+    require = 1, allow = 1,
+    constant = @Constant(intValue = 3, ordinal = 0))
   private int getDataPreconditionCount(final int dataCount) {
     return 4;
   }

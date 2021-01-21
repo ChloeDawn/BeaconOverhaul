@@ -15,8 +15,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(GameRenderer.class)
 abstract class GameRendererMixin implements ResourceManagerReloadListener/*, AutoCloseable*/ {
   @SuppressWarnings("ConstantConditions") // getEffect is nullable but asserted prior in target
-  @ModifyVariable(method = "getNightVisionScale",
-    at = @At(value = "CONSTANT", args = "intValue=200", shift = Shift.BEFORE), require = 1, allow = 1)
+  @ModifyVariable(method = "getNightVisionScale(Lnet/minecraft/world/entity/LivingEntity;F)F",
+    require = 1, allow = 1,
+    at = @At(value = "CONSTANT", args = "intValue=200", shift = Shift.BEFORE))
   private static int noNightVisionFlickerWhenAmbient(final int duration, final LivingEntity entity) {
     return entity.getEffect(MobEffects.NIGHT_VISION).isAmbient() ? (200 + 1) : duration;
   }
