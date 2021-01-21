@@ -35,7 +35,7 @@ dependencies {
   implementation("org.checkerframework:checker-qual:3.9.0")
   modImplementation(include("net.fabricmc.fabric-api:fabric-resource-loader-v0:0.4.2+ca58154a7d")!!)
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:1.0.1")!!)
-  modRuntime("io.github.prospector:modmenu:2.0.0-beta.1+build.2")
+  modRuntime("io.github.prospector:modmenu:1.14.13+build.22")
 }
 
 tasks {
