@@ -11,8 +11,5 @@
     "MobEffectAccessor",
     "PlayerMixin"
   ],
-  "refmap": "mixins/beaconoverhaul/refmap.json",
-  "injectors": {
-    "maxShiftBy": 2
-  }
+  "refmap": "mixins/beaconoverhaul/refmap.json"
 }
