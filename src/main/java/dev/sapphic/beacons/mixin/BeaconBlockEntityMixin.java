@@ -80,14 +80,14 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
     @SuppressWarnings("PackageVisibleField")
     @Shadow(aliases = "this$0") @Final BeaconBlockEntity this$0;
 
-    @Inject(method = "get", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "get(I)I", at = @At("HEAD"), cancellable = true)
     private void tryGetTier(final int index, final CallbackInfoReturnable<Integer> cir) {
       if (index == 3) {
         cir.setReturnValue(BeaconTier.get(this.this$0).ordinal());
       }
     }
 
-    @Inject(method = "set", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "set(II)V", at = @At("HEAD"), cancellable = true)
     private void trySetTier(final int index, final int value, final CallbackInfo ci) {
       if (index == 3) {
         BeaconTier.set(this.this$0, BeaconTier.valueOf(value));
@@ -95,7 +95,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
       }
     }
 
-    @ModifyConstant(method = "getCount", constant = @Constant(intValue = 3))
+    @ModifyConstant(method = "getCount()I", constant = @Constant(intValue = 3))
     private int expandDataCount(final int count) {
       return 4;
     }
