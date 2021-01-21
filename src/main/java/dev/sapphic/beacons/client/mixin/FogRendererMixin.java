@@ -14,6 +14,7 @@ import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -26,7 +27,7 @@ abstract class FogRendererMixin {
 
   @Inject(method = "setupColor(Lnet/minecraft/client/Camera;FLnet/minecraft/client/multiplayer/ClientLevel;IF)V",
     require = 1, allow = 1, cancellable = true,
-    at = @At(value = "INVOKE", opcode = Opcodes.INVOKESTATIC,
+    at = @At(shift = Shift.BY, by = -4, value = "INVOKE", opcode = Opcodes.INVOKESTATIC,
       target = "Lnet/minecraft/client/renderer/GameRenderer;getNightVisionScale(Lnet/minecraft/world/entity/LivingEntity;F)F"))
   private static void skipNightVisionColorShift(final Camera camera, final float tickDelta, final ClientLevel level, final int renderDistance, final float shade, final CallbackInfo info) {
     final @Nullable MobEffectInstance nightVision = ((LivingEntity) camera.getEntity()).getEffect(MobEffects.NIGHT_VISION);
