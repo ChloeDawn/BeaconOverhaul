@@ -7,9 +7,9 @@
   "license": "Apache-2.0",
   "icon": "pack.png",
   "depends": {
-    "minecraft": ">=1.17-alpha.20.49.a",
-    "fabricloader": ">=0.10.8",
-    "fabric-resource-loader-v0": ">=0.4.0",
+    "minecraft": "1.16.x",
+    "fabricloader": ">=0.11.1",
+    "fabric-resource-loader-v0": ">=0.4.2",
     "reach-entity-attributes": ">=1.0.1"
   },
   "entrypoints": {

@@ -3,16 +3,13 @@ package dev.sapphic.beacons.mixin;
 import dev.sapphic.beacons.BeaconTier;
 import dev.sapphic.beacons.MutableTieredBeacon;
 import dev.sapphic.beacons.TieredBeacon;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -32,11 +29,15 @@ import java.util.Objects;
 abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvider, MutableTieredBeacon {
   @Shadow @Final @Mutable private ContainerData dataAccess;
 
+  @Shadow private @Nullable MobEffect primaryPower;
+  @Shadow private @Nullable MobEffect secondaryPower;
+  @Shadow private int levels;
+
   @Unique
   private BeaconTier tier = BeaconTier.IRON;
 
-  BeaconBlockEntityMixin(final BlockEntityType<?> type, final BlockPos pos, final BlockState state) {
-    super(type, pos, state);
+  BeaconBlockEntityMixin(final BlockEntityType<?> type) {
+    super(type);
   }
 
   @Unique
@@ -52,27 +53,20 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   }
 
   @Redirect(method = "tick", at = @At(value = "INVOKE",
-    target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;updateBase(Lnet/minecraft/world/level/Level;III)I"),
+    target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;updateBase(III)V"),
     require = 1, allow = 1)
-  private static int updateBaseAndTier(
-    final Level level, final int x, final int y, final int z,
-    // Enclosing method parameters
-    final Level level1, final BlockPos pos, final BlockState state, final BeaconBlockEntity beacon
-  ) {
-    return TieredBeacon.updateBaseAndTier(beacon, level, x, y, z);
+  private void updateBaseAndTier(final BeaconBlockEntity beacon, final int x, final int y, final int z) {
+    this.levels = TieredBeacon.updateBaseAndTier(beacon, this.level, x, y, z);
   }
 
   // TODO Rewrite as variable and argument modifications?
   @Redirect(method = "tick", at = @At(value = "INVOKE",
-    target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V"),
+    target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;applyEffects()V"),
     require = 1, allow = 1)
-  private static void applyTieredEffects(
-    final Level level, final BlockPos pos, final int levels, final @Nullable MobEffect primary,
-    final @Nullable MobEffect secondary,
-    // Enclosing method parameters
-    final Level level1, final BlockPos pos1, final BlockState state, final BeaconBlockEntity beacon
-  ) {
-    TieredBeacon.applyTieredEffects(beacon, level, pos, levels, primary, secondary);
+  private void applyTieredEffects(final BeaconBlockEntity beacon) {
+    assert this.level != null;
+
+    TieredBeacon.applyTieredEffects(beacon, this.level, this.worldPosition, this.levels, this.primaryPower, this.secondaryPower);
   }
 
   @Mixin(targets = "net.minecraft.world.level.block.entity.BeaconBlockEntity$1")

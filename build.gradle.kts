@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "dev.sapphic"
-version = "1.0.1-1.17"
+version = "1.0.0-1.16"
 
 java {
   withSourcesJar()
@@ -28,12 +28,12 @@ repositories {
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:20w49a")
+  minecraft("com.mojang:minecraft:1.16.5")
   mappings(minecraft.officialMojangMappings())
-  modImplementation("net.fabricmc:fabric-loader:0.10.8")
+  modImplementation("net.fabricmc:fabric-loader:0.11.1")
   implementation("org.jetbrains:annotations:20.1.0")
-  implementation("org.checkerframework:checker-qual:3.8.0")
-  modImplementation(include("net.fabricmc.fabric-api:fabric-resource-loader-v0:0.4.0+27f445e78e")!!)
+  implementation("org.checkerframework:checker-qual:3.9.0")
+  modImplementation(include("net.fabricmc.fabric-api:fabric-resource-loader-v0:0.4.2+ca58154a7d")!!)
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:1.0.1")!!)
   modRuntime("io.github.prospector:modmenu:2.0.0-beta.1+build.2")
 }

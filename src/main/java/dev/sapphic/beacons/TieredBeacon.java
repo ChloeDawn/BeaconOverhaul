@@ -25,7 +25,7 @@ public interface TieredBeacon {
     int layer = 1;
     while (layer <= 4) {
       final int oy = y - layer;
-      if (oy < level.getMinBuildHeight()) {
+      if (oy < 0 /*Min build height*/) {
         break;
       }
       boolean valid = true;
