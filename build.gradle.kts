@@ -2,8 +2,8 @@ import org.gradle.util.GradleVersion
 import java.time.Instant
 
 plugins {
-  id("fabric-loom") version "0.5.43"
-  id("net.nemerosa.versioning") version "2.6.1"
+  id("fabric-loom") version "0.6.25"
+  id("net.nemerosa.versioning") version "2.8.2"
   id("signing")
 }
 
