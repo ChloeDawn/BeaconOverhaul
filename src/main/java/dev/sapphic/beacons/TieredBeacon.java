@@ -45,7 +45,7 @@ public interface TieredBeacon {
         }
       }
       if (!valid) {
-        break;
+        return levels;
       }
       levels = layer;
       layer++;
