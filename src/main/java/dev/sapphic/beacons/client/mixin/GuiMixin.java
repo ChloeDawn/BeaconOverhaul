@@ -19,7 +19,7 @@ abstract class GuiMixin {
 
   @ModifyVariable(method = "renderPlayerHealth(Lcom/mojang/blaze3d/vertex/PoseStack;)V",
     index = 25, require = 1, allow = 1,
-    at = @At(ordinal = 1, value = "INVOKE", opcode = Opcodes.INVOKEVIRTUAL, shift = Shift.BY, by = 5,
+    at = @At(shift = Shift.BY, by = 5, ordinal = 1, value = "INVOKE", opcode = Opcodes.INVOKEVIRTUAL,
       target = "Ljava/util/Random;nextInt(I)I"))
   private int noNutritionHungerShake(final int randY) {
     final Player player = this.getCameraPlayer();
