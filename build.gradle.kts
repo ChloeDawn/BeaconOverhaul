@@ -1,5 +1,9 @@
+import org.gradle.util.GradleVersion
+import java.time.Instant
+
 plugins {
   id("fabric-loom") version "0.5.43"
+  id("net.nemerosa.versioning") version "2.6.1"
   id("signing")
 }
 
@@ -13,11 +17,6 @@ java {
 minecraft {
   //accessWidener = file(".accesswidener")
   refmapName = "mixins/beaconoverhaul/refmap.json"
-  runDir = "run"
-}
-
-signing {
-  sign(configurations.archives.get())
 }
 
 repositories {
@@ -58,18 +57,55 @@ tasks {
 
   jar {
     from("/LICENSE")
-    manifest.attributes(mapOf(
-      "Specification-Title" to "MinecraftMod",
-      "Specification-Vendor" to project.group,
-      "Specification-Version" to "1.0.0",
+
+    manifest.attributes(
+      "Build-Timestamp" to Instant.now(),
+      "Build-Revision" to versioning.info.commit,
+      "Build-Jvm" to "${
+        System.getProperty("java.version")
+      } (${
+        System.getProperty("java.vendor")
+      } ${
+        System.getProperty("java.vm.version")
+      })",
+      "Built-By" to GradleVersion.current(),
+
       "Implementation-Title" to project.name,
       "Implementation-Version" to project.version,
       "Implementation-Vendor" to project.group,
+
+      "Specification-Title" to "FabricMod",
+      "Specification-Version" to "1.0.0",
+      "Specification-Vendor" to project.group,
+
       "Sealed" to "true"
-    ))
+    )
   }
 
-  named<Sign>("signArchives") {
-    dependsOn("remapSourcesJar")
+  assemble {
+    dependsOn(versionFile)
+  }
+}
+
+if (hasProperty("signing.mods.keyalias")) {
+  val alias = property("signing.mods.keyalias")
+  val keystore = property("signing.mods.keystore")
+  val password = property("signing.mods.password")
+
+  listOf(tasks.remapJar, tasks.remapSourcesJar).forEach {
+    it.get().doLast {
+      val file = outputs.files.singleFile
+      ant.invokeMethod(
+        "signjar", mapOf(
+          "jar" to file,
+          "alias" to alias,
+          "storepass" to password,
+          "keystore" to keystore,
+          "verbose" to true,
+          "preservelastmodified" to true
+        )
+      )
+      signing.sign(file)
+    }
   }
 }
