@@ -2,6 +2,7 @@ package dev.sapphic.beacons;
 
 import com.google.common.collect.ObjectArrays;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+import dev.sapphic.beacons.mixin.BeaconBlockEntityAccessor;
 import dev.sapphic.beacons.mixin.MobEffectAccessor;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.Registry;
@@ -13,6 +14,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public final class BeaconMobEffects implements ModInitializer {
   public static final MobEffect LONG_REACH = MobEffectAccessor.newMobEffect(MobEffectCategory.BENEFICIAL, 0xDEF58F)
@@ -44,6 +48,9 @@ public final class BeaconMobEffects implements ModInitializer {
     effects[1] = ObjectArrays.concat(effects[1], MobEffects.FIRE_RESISTANCE);
     effects[2] = ObjectArrays.concat(effects[2], NUTRITION);
     effects[3] = concat(effects[3], LONG_REACH, MobEffects.SLOW_FALLING);
+
+    BeaconBlockEntityAccessor.setValidEffects(Arrays.stream(effects)
+      .flatMap(Arrays::stream).collect(Collectors.toSet()));
   }
 
   private static MobEffect[] concat(final MobEffect[] first, final MobEffect... second) {
