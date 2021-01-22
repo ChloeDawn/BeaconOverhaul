@@ -4,6 +4,7 @@
   "required": true,
   "package": "dev.sapphic.beacons.mixin",
   "mixins": [
+    "BeaconBlockEntityAccessor",
     "BeaconBlockEntityMixin",
     "BeaconBlockEntityMixin$DataAccessMixin",
     "BeaconMenuMixin",
