@@ -34,7 +34,7 @@ public final class BeaconPowerTooltips {
 
       int index = additional ? 1 : 0;
 
-      if (effect != MobEffects.NIGHT_VISION) {
+      if ((effect != MobEffects.NIGHT_VISION) && (effect != MobEffects.FIRE_RESISTANCE)) {
         index += BeaconTier.get(screen.getMenu()).ordinal();
       }
 

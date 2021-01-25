@@ -4,10 +4,12 @@
   "required": true,
   "package": "dev.sapphic.beacons.client.mixin",
   "client": [
+    "BeaconScreenMixin",
     "FogRendererMixin",
     "GameRendererMixin",
     "GuiMixin",
     "LightTextureMixin",
+    "PowerButtonAccessor",
     "PowerButtonMixin"
   ],
   "refmap": "mixins/beaconoverhaul/refmap.json",

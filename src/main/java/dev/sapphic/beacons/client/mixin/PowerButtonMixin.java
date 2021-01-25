@@ -12,11 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-// TODO Compile-time access widener for target, superclass, and parameter
-//  Compile-time access wideners are currently unsupported
-//  See https://github.com/FabricMC/fabric-loom/issues/311
-//  Also report Mixin bug of reporting package-private class target as public
-//  It is possibly a conflict with Fabric Loader making classes public at runtime?
+// TODO See https://github.com/FabricMC/fabric-loom/issues/311
+// FIXME Mixin reporting package-private class target as public
 
 @Environment(EnvType.CLIENT)
 @Mixin(targets = "net.minecraft.client.gui.screens.inventory.BeaconScreen$BeaconPowerButton")

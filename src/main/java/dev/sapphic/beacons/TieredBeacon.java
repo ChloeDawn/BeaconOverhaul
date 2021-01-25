@@ -66,7 +66,7 @@ public interface TieredBeacon {
     int primaryAmplifier = tier;
     int secondaryAmplifier = tier;
 
-    if (primary == MobEffects.NIGHT_VISION) {
+    if ((primary == MobEffects.NIGHT_VISION) || (primary == MobEffects.FIRE_RESISTANCE)) {
       primaryAmplifier = 0;
     }
 
@@ -74,7 +74,7 @@ public interface TieredBeacon {
       secondaryAmplifier = 0;
     }
 
-    if ((levels >= 4) && (primary == secondary)) {
+    if ((levels >= 4) && (primary == secondary) && (primary != MobEffects.FIRE_RESISTANCE)) {
       primaryAmplifier = Math.min(primaryAmplifier, secondaryAmplifier);
       primaryAmplifier++;
     }
