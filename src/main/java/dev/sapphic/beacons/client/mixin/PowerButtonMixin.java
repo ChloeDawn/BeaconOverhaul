@@ -7,6 +7,7 @@ import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Coerce;
@@ -22,13 +23,13 @@ abstract class PowerButtonMixin extends AbstractButton /*extends BeaconScreen.Be
     super(x, y, w, h, label);
   }
 
-  // FIXME Report plugin issues; it neither recognizes inner class constructor signatures nor type coercion
-  @SuppressWarnings({ "UnnecessaryQualifiedMemberReference", "UnresolvedMixinReference" })
+  // FIXME Plugin does not recognize inner class descriptors
+  @SuppressWarnings("UnresolvedMixinReference")
   @Redirect(
-    method = "Lnet/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconPowerButton;<init>(Lnet/minecraft/client/gui/screens/inventory/BeaconScreen;IILnet/minecraft/world/effect/MobEffect;Z)V",
-    at = @At(value = "INVOKE",
-      target = "Lnet/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconPowerButton;createTooltip(Lnet/minecraft/world/effect/MobEffect;Z)Lnet/minecraft/network/chat/Component;"),
-    require = 1, allow = 1)
+    method = "<init>(Lnet/minecraft/client/gui/screens/inventory/BeaconScreen;IILnet/minecraft/world/effect/MobEffect;Z)V",
+    require = 1, allow = 1,
+    at = @At(value = "INVOKE", opcode = Opcodes.INVOKEVIRTUAL,
+      target = "Lnet/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconPowerButton;createTooltip(Lnet/minecraft/world/effect/MobEffect;Z)Lnet/minecraft/network/chat/Component;"))
   private Component createTieredTooltip(
     @Coerce final AbstractButton button, final MobEffect effect, final boolean primary,
     // Enclosing method parameters

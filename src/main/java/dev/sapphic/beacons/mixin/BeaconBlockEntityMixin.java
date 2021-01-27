@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -51,9 +52,11 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
     this.tier = Objects.requireNonNull(tier);
   }
 
-  @Redirect(method = "tick", at = @At(value = "INVOKE",
-    target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;updateBase(Lnet/minecraft/world/level/Level;III)I"),
-    require = 1, allow = 1)
+  @Redirect(
+    method = "tick(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;)V",
+    require = 1, allow = 1,
+    at = @At(value = "INVOKE", opcode = Opcodes.INVOKESTATIC,
+      target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;updateBase(Lnet/minecraft/world/level/Level;III)I"))
   private static int updateBaseAndTier(
     final Level level, final int x, final int y, final int z,
     // Enclosing method parameters
@@ -63,9 +66,11 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   }
 
   // TODO Rewrite as variable and argument modifications?
-  @Redirect(method = "tick", at = @At(value = "INVOKE",
-    target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V"),
-    require = 1, allow = 1)
+  @Redirect(
+    method = "tick(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;)V",
+    require = 1, allow = 1,
+    at = @At(value = "INVOKE", opcode = Opcodes.INVOKESTATIC,
+      target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V"))
   private static void applyTieredEffects(
     final Level level, final BlockPos pos, final int levels, final @Nullable MobEffect primary,
     final @Nullable MobEffect secondary,
