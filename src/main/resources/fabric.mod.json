@@ -10,7 +10,7 @@
     "minecraft": "1.16.x",
     "fabricloader": ">=0.11.1",
     "fabric-resource-loader-v0": ">=0.4.2",
-    "reach-entity-attributes": ">=1.0.1"
+    "reach-entity-attributes": "1.0.1"
   },
   "entrypoints": {
     "main": [

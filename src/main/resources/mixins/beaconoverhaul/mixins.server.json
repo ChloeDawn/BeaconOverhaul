@@ -10,7 +10,12 @@
     "BeaconMenuMixin",
     "LivingEntityMixin",
     "MobEffectAccessor",
-    "PlayerMixin"
+    "PlayerMixin",
+    "reach.AbstractContainerMenuMixin",
+    "reach.ChestBlockEntityMixin",
+    "reach.ContainersMixin",
+    "reach.EnderChestBlockEntityMixin",
+    "reach.ItemCombinerMenuMixin"
   ],
   "refmap": "mixins/beaconoverhaul/refmap.json"
 }
