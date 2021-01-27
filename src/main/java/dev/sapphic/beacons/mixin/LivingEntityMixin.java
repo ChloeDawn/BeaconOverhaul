@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin extends Entity {
-  private /*final*/ float defaultMaxStepUp;
+  private float defaultMaxUpStep = Float.NaN;
 
   LivingEntityMixin(final EntityType<?> type, final Level level) {
     super(type, level);
@@ -25,14 +25,15 @@ abstract class LivingEntityMixin extends Entity {
   @Shadow
   public abstract boolean hasEffect(final MobEffect effect);
 
-  @Inject(method = "<init>", at = @At("RETURN"), require = 1, allow = 1)
-  private void storeDefaultMaxStepUp(final CallbackInfo ci) {
-    this.defaultMaxStepUp = this.maxUpStep;
-  }
-
   @Inject(method = "tickEffects", at = @At("HEAD"), require = 1, allow = 1)
   private void updateJumpBoostStepAssist(final CallbackInfo ci) {
-    this.maxUpStep = this.hasEffect(MobEffects.JUMP) ? 1.0F : this.defaultMaxStepUp;
+    if (Float.isNaN(this.defaultMaxUpStep)) {
+      this.defaultMaxUpStep = this.maxUpStep;
+      if (Float.isNaN(this.defaultMaxUpStep)) {
+        throw new IllegalStateException("Max up step is not a number");
+      }
+    }
+    this.maxUpStep = this.hasEffect(MobEffects.JUMP) ? 1.0F : this.defaultMaxUpStep;
   }
 
   @ModifyConstant(method = "travel", constant = @Constant(doubleValue = 0.01, ordinal = 0), require = 1, allow = 1)
