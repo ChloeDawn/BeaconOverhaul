@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "dev.sapphic"
-version = "1.2.0+1.17"
+version = "1.3.0+1.17"
 
 java {
   withSourcesJar()
@@ -25,6 +25,11 @@ repositories {
       includeGroup("com.jamieswhiteshirt")
     }
   }
+  maven("https://maven.terraformersmc.com/releases") {
+    content {
+      includeGroup("com.terraformersmc")
+    }
+  }
 }
 
 dependencies {
@@ -34,8 +39,8 @@ dependencies {
   implementation("org.jetbrains:annotations:20.1.0")
   implementation("org.checkerframework:checker-qual:3.9.0")
   modImplementation(include("net.fabricmc.fabric-api:fabric-resource-loader-v0:0.4.3+36b77c3eeb")!!)
-  modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:1.0.1")!!)
-  modRuntime("io.github.prospector:modmenu:2.0.0-beta.1+build.2")
+  modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.0.0")!!)
+  modRuntime("com.terraformersmc:modmenu:2.0.0-beta.2")
 }
 
 tasks {
