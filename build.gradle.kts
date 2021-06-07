@@ -101,6 +101,12 @@ tasks {
   assemble {
     dependsOn(versionFile)
   }
+
+  afterEvaluate {
+    remapJar {
+      remapAccessWidener.set(false)
+    }
+  }
 }
 
 if (hasProperty("signing.mods.keyalias")) {
