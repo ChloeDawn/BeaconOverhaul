@@ -42,7 +42,7 @@ public final class BeaconMobEffects implements ModInitializer {
   }
 
   private static void appendAdditionalEffects() {
-    final MobEffect[][] effects = BeaconBlockEntity.BEACON_EFFECTS;
+    final var effects = BeaconBlockEntity.BEACON_EFFECTS;
 
     effects[0] = ObjectArrays.concat(effects[0], MobEffects.NIGHT_VISION);
     effects[1] = ObjectArrays.concat(effects[1], MobEffects.FIRE_RESISTANCE);

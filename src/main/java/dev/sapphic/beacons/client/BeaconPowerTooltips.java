@@ -4,11 +4,10 @@ import dev.sapphic.beacons.BeaconTier;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 
 @Environment(EnvType.CLIENT)
 public final class BeaconPowerTooltips {
@@ -17,29 +16,18 @@ public final class BeaconPowerTooltips {
   private BeaconPowerTooltips() {
   }
 
-  public static Component createTooltip(final BeaconScreen screen, final MobEffect effect, final boolean primary) {
-    final TranslatableComponent component = new TranslatableComponent(effect.getDescriptionId());
+  public static MutableComponent createTooltip(final BeaconScreen screen, final MobEffect effect, final boolean potent) {
+    final var component = new TranslatableComponent(effect.getDescriptionId());
 
     if (effect != MobEffects.SLOW_FALLING) {
-      boolean additional = !primary;
-
-      if (additional) {
-        for (final MobEffect e : BeaconBlockEntity.BEACON_EFFECTS[3]) {
-          if (effect.equals(e)) {
-            additional = false;
-            break;
-          }
-        }
-      }
-
-      int index = additional ? 1 : 0;
+      var potency = potent ? 1 : 0;
 
       if ((effect != MobEffects.NIGHT_VISION) && (effect != MobEffects.FIRE_RESISTANCE)) {
-        index += BeaconTier.get(screen.getMenu()).ordinal();
+        potency += BeaconTier.get(screen.getMenu()).ordinal();
       }
 
-      if (index > 0) {
-        return component.append(EFFECT_SUFFIXES[index - 1]);
+      if (potency > 0) {
+        return component.append(EFFECT_SUFFIXES[potency - 1]);
       }
     }
 

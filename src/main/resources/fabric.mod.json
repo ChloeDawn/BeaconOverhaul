@@ -7,10 +7,10 @@
   "license": "Apache-2.0",
   "icon": "pack.png",
   "depends": {
-    "minecraft": ">=1.17-alpha.20.49.a",
-    "fabricloader": ">=0.11.1",
-    "fabric-resource-loader-v0": ">=0.4.4",
-    "reach-entity-attributes": ">=2.0.0"
+    "minecraft": ">=1.17-beta.1",
+    "fabricloader": ">=0.11.3",
+    "fabric-resource-loader-v0": ">=0.4.7",
+    "reach-entity-attributes": ">=2.1.1"
   },
   "entrypoints": {
     "main": [

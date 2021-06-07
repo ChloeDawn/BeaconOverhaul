@@ -2,24 +2,35 @@ import org.gradle.util.GradleVersion
 import java.time.Instant
 
 plugins {
-  id("fabric-loom") version "0.6.25"
-  id("net.nemerosa.versioning") version "2.8.2"
+  id("fabric-loom") version "0.8.17"
+  id("net.nemerosa.versioning") version "be24b23"
   id("signing")
 }
 
 group = "dev.sapphic"
-version = "1.3.1+1.17"
+version = "1.4.0+1.17"
 
 java {
   withSourcesJar()
 }
 
-minecraft {
-  //accessWidener = file(".accesswidener")
+loom {
+  accessWidener = file(".accesswidener")
   refmapName = "mixins/beaconoverhaul/refmap.json"
+  runs {
+    configureEach {
+      vmArg("-Dmixin.debug=true")
+      vmArg("-Dmixin.debug.export.decompile=false")
+      vmArg("-Dmixin.debug.verbose=true")
+      vmArg("-Dmixin.dumpTargetOnFailure=true")
+      vmArg("-Dmixin.checks=true")
+      vmArg("-Dmixin.hotSwap=true")
+    }
+  }
 }
 
 repositories {
+  mavenLocal()
   maven("https://maven.jamieswhiteshirt.com/libs-release") {
     content {
       includeGroup("com.jamieswhiteshirt")
@@ -33,20 +44,20 @@ repositories {
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:20w51a")
-  mappings(minecraft.officialMojangMappings())
-  modImplementation("net.fabricmc:fabric-loader:0.11.1")
-  implementation("org.jetbrains:annotations:20.1.0")
-  implementation("org.checkerframework:checker-qual:3.9.0")
-  modImplementation(include("net.fabricmc.fabric-api:fabric-resource-loader-v0:0.4.3+36b77c3eeb")!!)
-  modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.0.1")!!)
-  modRuntime("com.terraformersmc:modmenu:2.0.0-beta.2")
+  minecraft("com.mojang:minecraft:1.17-pre1")
+  mappings(loom.officialMojangMappings())
+  modImplementation("net.fabricmc:fabric-loader:0.11.3")
+  implementation("org.jetbrains:annotations:21.0.1")
+  implementation("org.checkerframework:checker-qual:3.14.0")
+  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.34.9+1.17"))!!)
+  modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
+  modRuntime("com.terraformersmc:modmenu:2.0.0-beta.7")
 }
 
 tasks {
   compileJava {
     with(options) {
-      options.release.set(8)
+      options.release.set(16)
       isFork = true
       isDeprecation = true
       encoding = "UTF-8"
