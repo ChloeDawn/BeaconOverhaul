@@ -7,20 +7,18 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 public interface TieredBeacon {
-  BeaconTier getTier();
+  PotencyTier getTier();
 
   static int updateBaseAndTier(
     final BeaconBlockEntity beacon, final Level level, final int x, final int y, final int z
   ) {
     var levels = 0;
-    var netherite = true;
-    var diamond = true;
+    var maxTier = PotencyTier.HIGH;
     var layer = 1;
     while (layer <= 4) {
       final var oy = y - layer;
@@ -35,11 +33,9 @@ public interface TieredBeacon {
             valid = false;
             break;
           }
-          if (!state.is(Blocks.NETHERITE_BLOCK)) {
-            netherite = false;
-          }
-          if (!state.is(Blocks.DIAMOND_BLOCK)) {
-            diamond = false;
+          final var tier = PotencyTier.maxOf(state);
+          if (tier.ordinal() < maxTier.ordinal()) {
+            maxTier = tier;
           }
         }
       }
@@ -49,7 +45,7 @@ public interface TieredBeacon {
       levels = layer;
       layer++;
     }
-    BeaconTier.set(beacon, BeaconTier.of(diamond, netherite));
+    PotencyTier.set(beacon, maxTier);
     return levels;
   }
 
@@ -61,7 +57,7 @@ public interface TieredBeacon {
       return;
     }
 
-    final var tier = BeaconTier.get(beacon).ordinal();
+    final var tier = PotencyTier.get(beacon).ordinal();
     var primaryAmplifier = tier;
     var secondaryAmplifier = tier;
 

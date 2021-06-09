@@ -50,6 +50,7 @@ dependencies {
   implementation("org.jetbrains:annotations:21.0.1")
   implementation("org.checkerframework:checker-qual:3.14.0")
   modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.34.9+1.17"))!!)
+  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.34.9+1.17"))!!)
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
   modRuntime("com.terraformersmc:modmenu:2.0.0-beta.7")
 }

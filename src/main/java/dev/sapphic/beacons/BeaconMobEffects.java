@@ -37,6 +37,8 @@ public final class BeaconMobEffects implements ModInitializer {
     }
   };
 
+  static final String NAMESPACE = "beaconoverhaul";
+
   public BeaconMobEffects() {
     appendAdditionalEffects();
   }
@@ -59,7 +61,7 @@ public final class BeaconMobEffects implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    Registry.register(Registry.MOB_EFFECT, new ResourceLocation("beaconoverhaul", "long_reach"), LONG_REACH);
-    Registry.register(Registry.MOB_EFFECT, new ResourceLocation("beaconoverhaul", "nutrition"), NUTRITION);
+    Registry.register(Registry.MOB_EFFECT, new ResourceLocation(NAMESPACE, "long_reach"), LONG_REACH);
+    Registry.register(Registry.MOB_EFFECT, new ResourceLocation(NAMESPACE, "nutrition"), NUTRITION);
   }
 }

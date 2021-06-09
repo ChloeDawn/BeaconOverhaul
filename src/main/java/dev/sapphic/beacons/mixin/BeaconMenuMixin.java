@@ -1,6 +1,6 @@
 package dev.sapphic.beacons.mixin;
 
-import dev.sapphic.beacons.BeaconTier;
+import dev.sapphic.beacons.PotencyTier;
 import dev.sapphic.beacons.TieredBeacon;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.BeaconMenu;
@@ -22,8 +22,8 @@ abstract class BeaconMenuMixin extends AbstractContainerMenu implements TieredBe
   }
 
   @Override
-  public final BeaconTier getTier() {
-    return BeaconTier.valueOf(this.beaconData.get(3));
+  public final PotencyTier getTier() {
+    return PotencyTier.valueOf(this.beaconData.get(3));
   }
 
   @ModifyConstant(method = "<init>(ILnet/minecraft/world/Container;)V",

@@ -1,6 +1,6 @@
 package dev.sapphic.beacons.client;
 
-import dev.sapphic.beacons.BeaconTier;
+import dev.sapphic.beacons.PotencyTier;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
@@ -23,7 +23,7 @@ public final class BeaconPowerTooltips {
       var potency = potent ? 1 : 0;
 
       if ((effect != MobEffects.NIGHT_VISION) && (effect != MobEffects.FIRE_RESISTANCE)) {
-        potency += BeaconTier.get(screen.getMenu()).ordinal();
+        potency += PotencyTier.get(screen.getMenu()).ordinal();
       }
 
       if (potency > 0) {

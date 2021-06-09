@@ -1,6 +1,6 @@
 package dev.sapphic.beacons.mixin;
 
-import dev.sapphic.beacons.BeaconTier;
+import dev.sapphic.beacons.PotencyTier;
 import dev.sapphic.beacons.MutableTieredBeacon;
 import dev.sapphic.beacons.TieredBeacon;
 import net.minecraft.core.BlockPos;
@@ -34,7 +34,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   @Shadow @Final @Mutable private ContainerData dataAccess;
 
   @Unique
-  private BeaconTier tier = BeaconTier.IRON;
+  private PotencyTier tier = PotencyTier.NONE;
 
   BeaconBlockEntityMixin(final BlockEntityType<?> type, final BlockPos pos, final BlockState state) {
     super(type, pos, state);
@@ -42,13 +42,13 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
 
   @Unique
   @Override
-  public final BeaconTier getTier() {
+  public final PotencyTier getTier() {
     return this.tier;
   }
 
   @Unique
   @Override
-  public final void setTier(final BeaconTier tier) {
+  public final void setTier(final PotencyTier tier) {
     this.tier = Objects.requireNonNull(tier);
   }
 
@@ -87,14 +87,14 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
     @Inject(method = "get(I)I", at = @At("HEAD"), cancellable = true)
     private void tryGetTier(final int index, final CallbackInfoReturnable<Integer> cir) {
       if (index == 3) {
-        cir.setReturnValue(BeaconTier.get(this.this$0).ordinal());
+        cir.setReturnValue(PotencyTier.get(this.this$0).ordinal());
       }
     }
 
     @Inject(method = "set(II)V", at = @At("HEAD"), cancellable = true)
     private void trySetTier(final int index, final int value, final CallbackInfo ci) {
       if (index == 3) {
-        BeaconTier.set(this.this$0, BeaconTier.valueOf(value));
+        PotencyTier.set(this.this$0, PotencyTier.valueOf(value));
         ci.cancel();
       }
     }
