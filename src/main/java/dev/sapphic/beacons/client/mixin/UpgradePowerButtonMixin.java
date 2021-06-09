@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(BeaconScreen.BeaconUpgradePowerButton.class)
 abstract class UpgradePowerButtonMixin extends BeaconScreen.BeaconScreenButton {
-  @Shadow(aliases = "this$0") @Final private BeaconScreen this$0;
+  @Shadow(aliases = "this$0") @Final BeaconScreen this$0;
 
   protected UpgradePowerButtonMixin(final int x, final int y) {
     super(x, y);

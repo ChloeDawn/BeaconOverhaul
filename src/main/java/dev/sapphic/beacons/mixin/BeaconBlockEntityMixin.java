@@ -82,7 +82,6 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
 
   @Mixin(targets = "net.minecraft.world.level.block.entity.BeaconBlockEntity$1")
   private abstract static class DataAccessMixin implements ContainerData {
-    @SuppressWarnings("PackageVisibleField")
     @Shadow(aliases = "this$0") @Final BeaconBlockEntity this$0;
 
     @Inject(method = "get(I)I", at = @At("HEAD"), cancellable = true)
