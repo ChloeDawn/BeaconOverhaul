@@ -47,9 +47,9 @@ public final class BeaconMobEffects implements ModInitializer {
     final var effects = BeaconBlockEntity.BEACON_EFFECTS;
 
     effects[0] = ObjectArrays.concat(effects[0], MobEffects.NIGHT_VISION);
-    effects[1] = ObjectArrays.concat(effects[1], MobEffects.FIRE_RESISTANCE);
+    effects[1] = ObjectArrays.concat(effects[1], LONG_REACH);
     effects[2] = ObjectArrays.concat(effects[2], NUTRITION);
-    effects[3] = concat(effects[3], LONG_REACH, MobEffects.SLOW_FALLING);
+    effects[3] = concat(effects[3], MobEffects.FIRE_RESISTANCE, MobEffects.SLOW_FALLING);
 
     BeaconBlockEntityAccessor.setValidEffects(Arrays.stream(effects)
       .flatMap(Arrays::stream).collect(Collectors.toSet()));
