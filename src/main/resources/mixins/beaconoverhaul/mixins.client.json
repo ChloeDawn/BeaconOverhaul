@@ -10,7 +10,8 @@
     "GuiMixin",
     "LightTextureMixin",
     "PowerButtonAccessor",
-    "PowerButtonMixin"
+    "PowerButtonMixin",
+    "ScreenEffectRendererMixin"
   ],
   "refmap": "mixins/beaconoverhaul/refmap.json",
   "injectors": {
