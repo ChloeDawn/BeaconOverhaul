@@ -61,15 +61,15 @@ public interface TieredBeacon {
     var primaryAmplifier = tier;
     var secondaryAmplifier = tier;
 
-    if ((primary == MobEffects.NIGHT_VISION) || (primary == MobEffects.FIRE_RESISTANCE)) {
+    if (primary == MobEffects.NIGHT_VISION) {
       primaryAmplifier = 0;
     }
 
-    if (secondary == MobEffects.SLOW_FALLING) {
+    if ((secondary == MobEffects.SLOW_FALLING) || (secondary == MobEffects.FIRE_RESISTANCE)) {
       secondaryAmplifier = 0;
     }
 
-    if ((levels >= 4) && (primary == secondary) && (primary != MobEffects.FIRE_RESISTANCE)) {
+    if ((levels >= 4) && (primary == secondary)) {
       primaryAmplifier = Math.min(primaryAmplifier, secondaryAmplifier);
       primaryAmplifier++;
     }

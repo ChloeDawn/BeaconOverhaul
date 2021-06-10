@@ -19,10 +19,10 @@ public final class BeaconPowerTooltips {
   public static MutableComponent createTooltip(final BeaconScreen screen, final MobEffect effect, final boolean potent) {
     final var component = new TranslatableComponent(effect.getDescriptionId());
 
-    if (effect != MobEffects.SLOW_FALLING) {
+    if ((effect != MobEffects.SLOW_FALLING) && (effect != MobEffects.FIRE_RESISTANCE)) {
       var potency = potent ? 1 : 0;
 
-      if ((effect != MobEffects.NIGHT_VISION) && (effect != MobEffects.FIRE_RESISTANCE)) {
+      if (effect != MobEffects.NIGHT_VISION) {
         potency += PotencyTier.get(screen.getMenu()).ordinal();
       }
 
