@@ -25,7 +25,8 @@ abstract class FogRendererMixin {
   @Shadow private static float fogGreen;
   @Shadow private static float fogBlue;
 
-  @Inject(method = "setupColor(Lnet/minecraft/client/Camera;FLnet/minecraft/client/multiplayer/ClientLevel;IF)V",
+  @Inject(
+    method = "setupColor(Lnet/minecraft/client/Camera;FLnet/minecraft/client/multiplayer/ClientLevel;IF)V",
     require = 1, allow = 1, cancellable = true,
     at = @At(shift = Shift.BY, by = -4, value = "INVOKE", opcode = Opcodes.INVOKESTATIC,
       target = "Lnet/minecraft/client/renderer/GameRenderer;getNightVisionScale(Lnet/minecraft/world/entity/LivingEntity;F)F"))

@@ -44,10 +44,7 @@ abstract class PowerButtonMixin extends BeaconScreen.BeaconScreenButton {
     );
   }
 
-  @Inject(
-    method = "updateStatus(I)V",
-    require = 1, allow = 1,
-    at = @At("TAIL"))
+  @Inject(method = "updateStatus(I)V", require = 1, allow = 1, at = @At("TAIL"))
   private void updateTooltip(final int levels, final CallbackInfo ci) {
     //noinspection ConstantConditions
     if (!((Object) this instanceof BeaconScreen.BeaconUpgradePowerButton)) {

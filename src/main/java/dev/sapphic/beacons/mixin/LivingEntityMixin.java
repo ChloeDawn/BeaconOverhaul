@@ -25,9 +25,7 @@ abstract class LivingEntityMixin extends Entity {
   @Shadow
   public abstract boolean hasEffect(final MobEffect effect);
 
-  @Inject(method = "tickEffects()V",
-    require = 1, allow = 1,
-    at = @At("HEAD"))
+  @Inject(method = "tickEffects()V", require = 1, allow = 1, at = @At("HEAD"))
   private void updateJumpBoostStepAssist(final CallbackInfo ci) {
     if (Float.isNaN(this.defaultMaxUpStep)) {
       this.defaultMaxUpStep = this.maxUpStep;
@@ -38,7 +36,8 @@ abstract class LivingEntityMixin extends Entity {
     this.maxUpStep = this.hasEffect(MobEffects.JUMP) ? 1.0F : this.defaultMaxUpStep;
   }
 
-  @ModifyConstant(method = "travel(Lnet/minecraft/world/phys/Vec3;)V",
+  @ModifyConstant(
+    method = "travel(Lnet/minecraft/world/phys/Vec3;)V",
     require = 1, allow = 1,
     constant = @Constant(doubleValue = 0.01, ordinal = 0))
   private double dropIfCrouching(final double fallDelta) {

@@ -19,7 +19,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 abstract class LightTextureMixin /*implements AutoCloseable*/ {
   @Shadow @Final private Minecraft minecraft;
 
-  @ModifyVariable(method = "updateLightTexture(F)V",
+  @ModifyVariable(
+    method = "updateLightTexture(F)V",
     index = 12, require = 1, allow = 1,
     at = @At(shift = Shift.BEFORE, value = "INVOKE", opcode = Opcodes.INVOKEVIRTUAL,
       target = "Lcom/mojang/math/Vector3f;set(FFF)V"))
