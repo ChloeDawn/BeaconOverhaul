@@ -115,12 +115,12 @@ if (hasProperty("signing.mods.keyalias")) {
   val keystore = property("signing.mods.keystore")
   val password = property("signing.mods.password")
 
-  if (!project.file(keystore!!).exists()) {
-    error("Missing keystore $keystore")
-  }
-
   listOf(tasks.remapJar, tasks.remapSourcesJar).forEach {
     it.get().doLast {
+      if (!project.file(keystore!!).exists()) {
+        error("Missing keystore $keystore")
+      }
+
       val file = outputs.files.singleFile
       ant.invokeMethod(
         "signjar", mapOf(
