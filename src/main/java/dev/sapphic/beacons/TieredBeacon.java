@@ -20,31 +20,40 @@ public interface TieredBeacon {
     var levels = 0;
     var maxTier = PotencyTier.HIGH;
     var layer = 1;
+
     while (layer <= 4) {
       final var oy = y - layer;
+
       if (oy < level.getMinBuildHeight()) {
         break;
       }
       var valid = true;
-      for(var ox = x - layer; (ox <= (x + layer)) && valid; ++ox) {
-        for(var oz = z - layer; oz <= (z + layer); ++oz) {
+
+      for (var ox = x - layer; (ox <= (x + layer)) && valid; ++ox) {
+        for (var oz = z - layer; oz <= (z + layer); ++oz) {
           final var state = level.getBlockState(new BlockPos(ox, oy, oz));
+
           if (!state.is(BlockTags.BEACON_BASE_BLOCKS)) {
             valid = false;
             break;
           }
+
           final var tier = PotencyTier.maxOf(state);
+
           if (tier.ordinal() < maxTier.ordinal()) {
             maxTier = tier;
           }
         }
       }
+
       if (!valid) {
         return levels;
       }
+
       levels = layer;
       layer++;
     }
+
     PotencyTier.set(beacon, maxTier);
     return levels;
   }
