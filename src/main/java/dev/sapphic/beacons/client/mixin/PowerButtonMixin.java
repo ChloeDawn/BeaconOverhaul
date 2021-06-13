@@ -11,6 +11,7 @@ import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -22,15 +23,20 @@ abstract class PowerButtonMixin extends BeaconScreen.BeaconScreenButton {
   @Shadow(aliases = "this$0") @Final private BeaconScreen this$0;
   @Shadow @Final private boolean isPrimary;
   @Shadow private MobEffect effect;
+  @Shadow private Component tooltip;
 
   PowerButtonMixin(final int x, final int y) {
     super(x, y);
   }
 
+  @Unique
+  @SuppressWarnings("ConstantConditions")
+  private boolean isUpgradeButton() {
+    return (Object) this instanceof BeaconScreen.BeaconUpgradePowerButton;
+  }
+
   @Shadow
   protected abstract void setEffect(final MobEffect mobEffect);
-
-  @Shadow private Component tooltip;
 
   @Redirect(
     method = "setEffect(Lnet/minecraft/world/effect/MobEffect;)V",
@@ -38,16 +44,12 @@ abstract class PowerButtonMixin extends BeaconScreen.BeaconScreenButton {
     at = @At(value = "INVOKE", opcode = Opcodes.INVOKEVIRTUAL,
       target = "Lnet/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconPowerButton;createEffectDescription(Lnet/minecraft/world/effect/MobEffect;)Lnet/minecraft/network/chat/MutableComponent;"))
   private MutableComponent createTieredTooltip(final BeaconScreen.BeaconPowerButton button, final MobEffect effect) {
-    //noinspection ConstantConditions
-    return BeaconPowerTooltips.createTooltip(this.this$0, effect,
-      (Object) this instanceof BeaconScreen.BeaconUpgradePowerButton
-    );
+    return BeaconPowerTooltips.createTooltip(this.this$0, effect, this.isUpgradeButton());
   }
 
   @Inject(method = "updateStatus(I)V", require = 1, allow = 1, at = @At("TAIL"))
   private void updateTooltip(final int levels, final CallbackInfo ci) {
-    //noinspection ConstantConditions
-    if (!((Object) this instanceof BeaconScreen.BeaconUpgradePowerButton)) {
+    if (!this.isUpgradeButton()) {
       this.tooltip = this.createTieredTooltip((BeaconScreen.BeaconPowerButton) (Object) this, this.effect);
     }
   }

@@ -27,10 +27,8 @@ abstract class GuiMixin {
   private int noNutritionHungerShake(final int randY) {
     final var player = this.getCameraPlayer();
 
-    if (!player.getFoodData().needsFood()) {
-      if (player.hasEffect(BeaconMobEffects.NUTRITION)) {
-        return this.screenHeight - 39;
-      }
+    if (!player.getFoodData().needsFood() && player.hasEffect(BeaconMobEffects.NUTRITION)) {
+      return this.screenHeight - 39;
     }
 
     return randY;
