@@ -1,10 +1,13 @@
 package dev.sapphic.beacons;
 
+import com.electronwill.nightconfig.core.ConfigSpec;
+import com.electronwill.nightconfig.core.file.FileConfig;
 import com.google.common.collect.ObjectArrays;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import dev.sapphic.beacons.mixin.BeaconBlockEntityAccessor;
 import dev.sapphic.beacons.mixin.MobEffectAccessor;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
@@ -37,31 +40,51 @@ public final class BeaconMobEffects implements ModInitializer {
     }
   };
 
-  static final String NAMESPACE = "beaconoverhaul";
-
-  public BeaconMobEffects() {
-    appendAdditionalEffects();
-  }
-
-  private static void appendAdditionalEffects() {
-    final var effects = BeaconBlockEntity.BEACON_EFFECTS;
-
-    effects[0] = ObjectArrays.concat(effects[0], MobEffects.NIGHT_VISION);
-    effects[1] = ObjectArrays.concat(effects[1], LONG_REACH);
-    effects[2] = ObjectArrays.concat(effects[2], NUTRITION);
-    effects[3] = concat(effects[3], MobEffects.FIRE_RESISTANCE, MobEffects.SLOW_FALLING);
-
-    BeaconBlockEntityAccessor.setValidEffects(Arrays.stream(effects)
-      .flatMap(Arrays::stream).collect(Collectors.toSet()));
-  }
-
-  private static MobEffect[] concat(final MobEffect[] first, final MobEffect... second) {
-    return ObjectArrays.concat(first, second, MobEffect.class);
-  }
+  public static final String NAMESPACE = "beaconoverhaul";
 
   @Override
   public void onInitialize() {
     Registry.register(Registry.MOB_EFFECT, new ResourceLocation(NAMESPACE, "long_reach"), LONG_REACH);
     Registry.register(Registry.MOB_EFFECT, new ResourceLocation(NAMESPACE, "nutrition"), NUTRITION);
+
+    final var configs = FabricLoader.getInstance().getConfigDir();
+    final var config = FileConfig.of(configs.resolve(NAMESPACE + ".toml"));
+    final var spec = new ConfigSpec();
+
+
+    spec.define("effects.night_vision", Boolean.TRUE);
+    spec.define("effects.long_reach", Boolean.TRUE);
+    spec.define("effects.nutrition", Boolean.TRUE);
+    spec.define("effects.fire_resistance", Boolean.TRUE);
+    spec.define("effects.slow_falling", Boolean.TRUE);
+
+    config.load();
+    spec.correct(config);
+    config.save();
+
+    final var effects = BeaconBlockEntity.BEACON_EFFECTS;
+
+    if (config.getOrElse("effects.night_vision", Boolean.TRUE)) {
+      effects[0] = ObjectArrays.concat(effects[0], MobEffects.NIGHT_VISION);
+    }
+
+    if (config.getOrElse("effects.long_reach", Boolean.TRUE)) {
+      effects[1] = ObjectArrays.concat(effects[1], LONG_REACH);
+    }
+
+    if (config.getOrElse("effects.nutrition", Boolean.TRUE)) {
+      effects[2] = ObjectArrays.concat(effects[2], NUTRITION);
+    }
+
+    if (config.getOrElse("effects.fire_resistance", Boolean.TRUE)) {
+      effects[3] = ObjectArrays.concat(effects[3], MobEffects.FIRE_RESISTANCE);
+    }
+
+    if (config.getOrElse("effects.slow_falling", Boolean.TRUE)) {
+      effects[3] = ObjectArrays.concat(effects[3], MobEffects.SLOW_FALLING);
+    }
+
+    BeaconBlockEntityAccessor.setValidEffects(Arrays.stream(effects)
+      .flatMap(Arrays::stream).collect(Collectors.toSet()));
   }
 }
