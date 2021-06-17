@@ -11,7 +11,7 @@
 
 **The latest version of this mod requires Minecraft 1.17 Pre-Release 1 or newer**
 
-![In-game screenshot of additional effects in beacon menu](https://i.imgur.com/7Hmh2cZ.png)
+![In-game screenshot of additional effects in beacon menu](https://i.imgur.com/A8q0WBK.png)
 
 ![In-game screenshot of higher potency night vision](https://i.imgur.com/bpYifIW.png)
 
