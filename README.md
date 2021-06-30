@@ -17,4 +17,4 @@
 
 ![In-game screenshot of interaction with long reach](https://i.imgur.com/KyiAKFg.png)
 
-***Logo design by [@bumble_dani](https://twitter.com/bumble_dani)***
+***Logo design by [@voxel_dani](https://twitter.com/voxel_dani)***
