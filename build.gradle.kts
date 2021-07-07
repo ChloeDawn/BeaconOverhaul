@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "dev.sapphic"
-version = "1.3.1+1.16"
+version = "1.3.2+1.16"
 
 java {
   withSourcesJar()

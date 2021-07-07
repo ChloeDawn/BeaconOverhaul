@@ -45,6 +45,9 @@ public interface TieredBeacon {
         }
       }
       if (!valid) {
+        if (layer > 1) {
+          BeaconTier.set(beacon, BeaconTier.of(diamond, netherite));
+        }
         return levels;
       }
       levels = layer;
