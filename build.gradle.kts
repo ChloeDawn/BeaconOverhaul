@@ -2,7 +2,7 @@ import org.gradle.util.GradleVersion
 import java.time.Instant
 
 plugins {
-  id("fabric-loom") version "0.8.17"
+  id("fabric-loom") version "0.8.18"
   id("net.nemerosa.versioning") version "be24b23"
   id("signing")
 }
@@ -44,15 +44,15 @@ repositories {
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:1.17-pre1")
+  minecraft("com.mojang:minecraft:1.17.1")
   mappings(loom.officialMojangMappings())
-  modImplementation("net.fabricmc:fabric-loader:0.11.3")
+  modImplementation("net.fabricmc:fabric-loader:0.11.6")
   implementation("org.jetbrains:annotations:21.0.1")
-  implementation("org.checkerframework:checker-qual:3.14.0")
-  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.34.9+1.17"))!!)
-  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.34.9+1.17"))!!)
+  implementation("org.checkerframework:checker-qual:3.15.0")
+  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.36.1+1.17"))!!)
+  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.36.1+1.17"))!!)
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
-  modRuntime("com.terraformersmc:modmenu:2.0.0-beta.7")
+  modRuntime("com.terraformersmc:modmenu:2.0.2")
 }
 
 tasks {

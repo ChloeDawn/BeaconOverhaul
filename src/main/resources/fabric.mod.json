@@ -8,8 +8,9 @@
   "icon": "pack.png",
   "depends": {
     "minecraft": ">=1.17-beta.1",
-    "fabricloader": ">=0.11.3",
+    "fabricloader": ">=0.11.6",
     "fabric-resource-loader-v0": ">=0.4.7",
+    "fabric-tag-extensions-v0": ">=1.1.4",
     "reach-entity-attributes": ">=2.1.1"
   },
   "entrypoints": {
@@ -25,10 +26,10 @@
     "Chloe Dawn"
   ],
   "contributors": [
-    "bumble_dani"
+    "Daniel Amberson"
   ],
   "contact": {
-    "homepage": "https://git.io/JLPmd",
+    "homepage": "https://bit.ly/3hnH9hq",
     "sources": "https://git.io/JLPmd",
     "issues": "https://git.io/JLPm5"
   }
