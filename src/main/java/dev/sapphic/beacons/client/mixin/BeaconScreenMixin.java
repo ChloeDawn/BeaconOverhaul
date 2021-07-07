@@ -14,8 +14,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-// TODO See https://github.com/FabricMC/fabric-loom/issues/311
-
 @Environment(EnvType.CLIENT)
 @Mixin(BeaconScreen.class)
 abstract class BeaconScreenMixin extends AbstractContainerScreen<BeaconMenu> {

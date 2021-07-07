@@ -1,6 +1,16 @@
-rootProject.name = "BeaconOverhaul"
+pluginManagement {
+  repositories {
+    gradlePluginPortal()
+    maven("https://maven.fabricmc.net")
+    maven("https://jitpack.io")
+  }
 
-pluginManagement.repositories {
-  gradlePluginPortal()
-  maven("https://maven.fabricmc.net")
+  resolutionStrategy {
+    eachPlugin {
+      if ("net.nemerosa.versioning" == requested.id.id) {
+        useModule("com.github.nemerosa:versioning:${requested.version}")
+      }
+    }
+  }
 }
+rootProject.name = "BeaconOverhaul"

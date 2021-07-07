@@ -13,11 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-// TODO See https://github.com/FabricMC/fabric-loom/issues/311
-// FIXME Mixin reporting package-private class target as public
-
 @Environment(EnvType.CLIENT)
-@Mixin(targets = "net.minecraft.client.gui.screens.inventory.BeaconScreen$BeaconPowerButton")
+@Mixin(BeaconScreen.BeaconPowerButton.class)
 abstract class PowerButtonMixin extends AbstractButton /*extends BeaconScreen.BeaconScreenButton*/ {
   PowerButtonMixin(final int x, final int y, final int w, final int h, final Component label) {
     super(x, y, w, h, label);

@@ -2,8 +2,8 @@ import org.gradle.util.GradleVersion
 import java.time.Instant
 
 plugins {
-  id("fabric-loom") version "0.6.25"
-  id("net.nemerosa.versioning") version "2.8.2"
+  id("fabric-loom") version "0.8.18"
+  id("net.nemerosa.versioning") version "be24b23"
   id("signing")
 }
 
@@ -14,8 +14,8 @@ java {
   withSourcesJar()
 }
 
-minecraft {
-  //accessWidener = file(".accesswidener")
+loom {
+  accessWidener = file(".accesswidener")
   refmapName = "mixins/beaconoverhaul/refmap.json"
 }
 
@@ -29,10 +29,10 @@ repositories {
 
 dependencies {
   minecraft("com.mojang:minecraft:1.16.5")
-  mappings(minecraft.officialMojangMappings())
-  modImplementation("net.fabricmc:fabric-loader:0.11.1")
-  implementation("org.jetbrains:annotations:20.1.0")
-  implementation("org.checkerframework:checker-qual:3.9.0")
+  mappings(loom.officialMojangMappings())
+  modImplementation("net.fabricmc:fabric-loader:0.11.6")
+  implementation("org.jetbrains:annotations:21.0.1")
+  implementation("org.checkerframework:checker-qual:3.15.0")
   modImplementation(include("net.fabricmc.fabric-api:fabric-resource-loader-v0:0.4.2+ca58154a7d")!!)
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:1.1.1")!!)
   modRuntime("io.github.prospector:modmenu:1.14.13+build.22")
@@ -41,7 +41,7 @@ dependencies {
 tasks {
   compileJava {
     with(options) {
-      options.release.set(8)
+      release.set(8)
       isFork = true
       isDeprecation = true
       encoding = "UTF-8"
@@ -84,6 +84,12 @@ tasks {
 
   assemble {
     dependsOn(versionFile)
+  }
+
+  afterEvaluate {
+    remapJar {
+      remapAccessWidener.set(false)
+    }
   }
 }
 
