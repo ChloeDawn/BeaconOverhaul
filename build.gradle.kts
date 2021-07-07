@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "dev.sapphic"
-version = "1.4.0+1.17"
+version = "1.4.1+1.17"
 
 java {
   withSourcesJar()
@@ -58,7 +58,7 @@ dependencies {
 tasks {
   compileJava {
     with(options) {
-      options.release.set(16)
+      release.set(16)
       isFork = true
       isDeprecation = true
       encoding = "UTF-8"

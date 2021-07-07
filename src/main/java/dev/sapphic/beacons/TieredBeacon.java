@@ -27,14 +27,15 @@ public interface TieredBeacon {
       if (oy < level.getMinBuildHeight()) {
         break;
       }
-      var valid = true;
 
-      for (var ox = x - layer; (ox <= (x + layer)) && valid; ++ox) {
+      var validLayer = true;
+
+      for (var ox = x - layer; (ox <= (x + layer)) && validLayer; ++ox) {
         for (var oz = z - layer; oz <= (z + layer); ++oz) {
           final var state = level.getBlockState(new BlockPos(ox, oy, oz));
 
           if (!state.is(BlockTags.BEACON_BASE_BLOCKS)) {
-            valid = false;
+            validLayer = false;
             break;
           }
 
@@ -46,7 +47,11 @@ public interface TieredBeacon {
         }
       }
 
-      if (!valid) {
+      if (!validLayer) {
+        if (layer > 1) {
+          PotencyTier.set(beacon, maxTier);
+        }
+
         return levels;
       }
 
