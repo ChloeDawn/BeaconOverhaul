@@ -30,8 +30,7 @@ import java.util.Objects;
 
 @Mixin(BeaconBlockEntity.class)
 abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvider, MutableTieredBeacon {
-  @Unique
-  private PotencyTier tier = PotencyTier.NONE;
+  @Unique private PotencyTier tier = PotencyTier.NONE;
 
   BeaconBlockEntityMixin(final BlockEntityType<?> type, final BlockPos pos, final BlockState state) {
     super(type, pos, state);
