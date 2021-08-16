@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,10 +17,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin extends Entity {
-  private float defaultMaxUpStep = Float.NaN;
+  @Unique private float defaultStepHeight;
+  @Unique private boolean stepIncreased;
 
   LivingEntityMixin(final EntityType<?> type, final Level level) {
     super(type, level);
+  }
+
+  @Inject(
+    method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V",
+    at = @At("RETURN"), require = 1, allow = 1)
+  private void setDefaultStepHeight(final CallbackInfo ci) {
+    this.defaultStepHeight = this.maxUpStep;
   }
 
   @Shadow
@@ -27,13 +36,15 @@ abstract class LivingEntityMixin extends Entity {
 
   @Inject(method = "tickEffects()V", require = 1, allow = 1, at = @At("HEAD"))
   private void updateJumpBoostStepAssist(final CallbackInfo ci) {
-    if (Float.isNaN(this.defaultMaxUpStep)) {
-      this.defaultMaxUpStep = this.maxUpStep;
-      if (Float.isNaN(this.defaultMaxUpStep)) {
-        throw new IllegalStateException("Max up step is not a number");
+    if (this.hasEffect(MobEffects.JUMP)) {
+      if (!this.stepIncreased) {
+        this.maxUpStep = 1.0F;
+        this.stepIncreased = true;
       }
+    } else if (this.stepIncreased) {
+      this.maxUpStep = this.defaultStepHeight;
+      this.stepIncreased = false;
     }
-    this.maxUpStep = this.hasEffect(MobEffects.JUMP) ? 1.0F : this.defaultMaxUpStep;
   }
 
   @ModifyConstant(
