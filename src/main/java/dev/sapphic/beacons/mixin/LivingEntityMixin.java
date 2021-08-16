@@ -17,8 +17,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin extends Entity {
-  @Unique private float defaultStepHeight;
-  @Unique private boolean stepIncreased;
+  @Unique
+  private float defaultStepHeight;
+
+  @Unique
+  private boolean stepIncreased;
 
   LivingEntityMixin(final EntityType<?> type, final Level level) {
     super(type, level);
@@ -26,7 +29,7 @@ abstract class LivingEntityMixin extends Entity {
 
   @Inject(
     method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V",
-    at = @At("RETURN"), require = 1, allow = 1)
+    require = 1, allow = 1, at = @At("RETURN"))
   private void setDefaultStepHeight(final CallbackInfo ci) {
     this.defaultStepHeight = this.maxUpStep;
   }
@@ -34,7 +37,7 @@ abstract class LivingEntityMixin extends Entity {
   @Shadow
   public abstract boolean hasEffect(final MobEffect effect);
 
-  @Inject(method = "tickEffects()V", require = 1, allow = 1, at = @At("HEAD"))
+  @Inject(method = "tickEffects()V", require = 1, at = @At("HEAD"))
   private void updateJumpBoostStepAssist(final CallbackInfo ci) {
     if (this.hasEffect(MobEffects.JUMP)) {
       if (!this.stepIncreased) {
@@ -49,10 +52,10 @@ abstract class LivingEntityMixin extends Entity {
 
   @ModifyVariable(
     method = "travel(Lnet/minecraft/world/phys/Vec3;)V",
+    require = 1, allow = 1,
     at = @At(
       shift = At.Shift.BEFORE, value = "FIELD", opcode = Opcodes.PUTFIELD, ordinal = 0,
-      target = "Lnet/minecraft/world/entity/LivingEntity;fallDistance:F"), 
-    require = 1, allow = 1)
+      target = "Lnet/minecraft/world/entity/LivingEntity;fallDistance:F"))
   private double dropIfCrouching(final double fallDelta) {
     return (this.hasEffect(MobEffects.SLOW_FALLING) && !this.isCrouching()) ? fallDelta : 0.08;
   }

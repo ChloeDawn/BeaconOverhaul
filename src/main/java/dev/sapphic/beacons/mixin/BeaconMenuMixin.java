@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
@@ -22,6 +23,7 @@ abstract class BeaconMenuMixin extends AbstractContainerMenu implements TieredBe
   }
 
   @Override
+  @Unique
   public final PotencyTier getTier() {
     return PotencyTier.valueOf(this.beaconData.get(3));
   }
@@ -30,7 +32,7 @@ abstract class BeaconMenuMixin extends AbstractContainerMenu implements TieredBe
     require = 1, allow = 1,
     constant = @Constant(intValue = 3))
   private static int getNewDataCount(final int dataCount) {
-    return 4;
+    return 3 + 1;
   }
 
   @ModifyConstant(
@@ -38,6 +40,6 @@ abstract class BeaconMenuMixin extends AbstractContainerMenu implements TieredBe
     require = 1, allow = 1,
     constant = @Constant(intValue = 3, ordinal = 0))
   private int getDataPreconditionCount(final int dataCount) {
-    return 4;
+    return 3 + 1;
   }
 }

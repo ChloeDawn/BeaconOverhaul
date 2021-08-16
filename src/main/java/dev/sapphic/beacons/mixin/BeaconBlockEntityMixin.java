@@ -1,7 +1,7 @@
 package dev.sapphic.beacons.mixin;
 
-import dev.sapphic.beacons.PotencyTier;
 import dev.sapphic.beacons.MutableTieredBeacon;
+import dev.sapphic.beacons.PotencyTier;
 import dev.sapphic.beacons.TieredBeacon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.MenuProvider;
@@ -16,7 +16,6 @@ import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,8 +30,6 @@ import java.util.Objects;
 
 @Mixin(BeaconBlockEntity.class)
 abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvider, MutableTieredBeacon {
-  @Shadow @Final @Mutable private ContainerData dataAccess;
-
   @Unique
   private PotencyTier tier = PotencyTier.NONE;
 
@@ -84,14 +81,14 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   private abstract static class DataAccessMixin implements ContainerData {
     @Shadow(aliases = "this$0") @Final BeaconBlockEntity this$0;
 
-    @Inject(method = "get(I)I", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "get(I)I", require = 1, at = @At("HEAD"), cancellable = true)
     private void tryGetTier(final int index, final CallbackInfoReturnable<Integer> cir) {
       if (index == 3) {
         cir.setReturnValue(PotencyTier.get(this.this$0).ordinal());
       }
     }
 
-    @Inject(method = "set(II)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "set(II)V", require = 1, at = @At("HEAD"), cancellable = true)
     private void trySetTier(final int index, final int value, final CallbackInfo ci) {
       if (index == 3) {
         PotencyTier.set(this.this$0, PotencyTier.valueOf(value));
@@ -99,9 +96,11 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
       }
     }
 
-    @ModifyConstant(method = "getCount()I", constant = @Constant(intValue = 3))
+    @ModifyConstant(method = "getCount()I",
+      require = 1, allow = 1,
+      constant = @Constant(intValue = 3))
     private int expandDataCount(final int count) {
-      return 4;
+      return 3 + 1;
     }
   }
 }
