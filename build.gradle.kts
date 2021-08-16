@@ -49,6 +49,7 @@ dependencies {
   modImplementation("net.fabricmc:fabric-loader:0.11.6")
   implementation("org.jetbrains:annotations:22.0.0")
   implementation("org.checkerframework:checker-qual:3.17.0")
+  modImplementation(include(fabricApi.module("fabric-api-base", "0.37.2+1.17"))!!)
   modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.37.2+1.17"))!!)
   modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.37.2+1.17"))!!)
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
