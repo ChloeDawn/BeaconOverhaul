@@ -60,6 +60,7 @@ public interface TieredBeacon {
     }
 
     PotencyTier.set(beacon, maxTier);
+
     return levels;
   }
 

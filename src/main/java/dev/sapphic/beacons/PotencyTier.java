@@ -30,6 +30,7 @@ public enum PotencyTier {
     if (!state.is(HIGH_POTENCY_BLOCKS)) {
       return state.is(LOW_POTENCY_BLOCKS) ? LOW : NONE;
     }
+
     return HIGH;
   }
 
