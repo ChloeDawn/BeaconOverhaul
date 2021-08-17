@@ -6,6 +6,9 @@
 - Adds a tier system for beacons, with diamond and netherite structures providing progressively increased effect potency
 - Adds a higher potency of night vision, allowing the player to see everything with midday lighting (full bright) and no fog effects
 - Adds 2 new effects to the game, Long Reach, increasing interaction reach, and Nutrition, passively restoring food levels
+- Adds a dropping mechanic to slow falling, allowing sneaking to cause a fall at normal velocity whilst still negating damage
+- Adds an increased step height to jump boost, allowing the player to step up blocks instantaneously when the effect is applied
+  - Note: Auto-jump takes precedence, and will need to be disabled for this to have any effect
 
 *In future releases higher potency night vision, long reach, and nutrition may be separated into other mods for modularity.*
 
