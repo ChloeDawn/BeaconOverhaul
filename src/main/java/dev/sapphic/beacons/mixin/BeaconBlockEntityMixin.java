@@ -6,25 +6,24 @@ import dev.sapphic.beacons.TieredBeacon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.util.Objects;
 
@@ -48,32 +47,69 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
     this.tier = Objects.requireNonNull(tier);
   }
 
-  @Redirect(
-    method = "tick(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;)V",
-    require = 1, allow = 1,
-    at = @At(value = "INVOKE", opcode = Opcodes.INVOKESTATIC,
-      target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;updateBase(Lnet/minecraft/world/level/Level;III)I"))
-  private static int updateBaseAndTier(
-    final Level level, final int x, final int y, final int z,
-    // Enclosing method parameters
-    final Level level1, final BlockPos pos, final BlockState state, final BeaconBlockEntity beacon
-  ) {
-    return TieredBeacon.updateBaseAndTier(beacon, level, x, y, z);
+  @ModifyVariable(
+          method = "applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V",
+          at=@At(value = "STORE"),
+          ordinal = 0
+  )
+  private static double updateDistance(double distance, Level level, BlockPos blockPos, int i, @Nullable MobEffect mobEffect, @Nullable MobEffect mobEffect2){
+    @Nullable final BlockEntity blockEntity = level.getBlockEntity(blockPos);
+    if (!(blockEntity instanceof BeaconBlockEntity)) return distance;
+    return 10.0 * PotencyTier.get(blockEntity).ordinal() + distance;
+  }
+  @ModifyVariable(
+          method = "applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V",
+          at=@At(value = "STORE", ordinal = 0),
+          ordinal = 1
+  )
+  private static int updatePrimaryAmplifier(int amplifier, Level level, BlockPos blockPos, int i, @Nullable MobEffect mobEffect, @Nullable MobEffect mobEffect2){
+    @Nullable final BlockEntity blockEntity = level.getBlockEntity(blockPos);
+    if ((!(blockEntity instanceof BeaconBlockEntity)) || mobEffect == MobEffects.NIGHT_VISION) {
+      return amplifier;
+    }
+    return PotencyTier.get(blockEntity).ordinal() + amplifier;
+  }
+  @ModifyVariable(
+          method = "applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V",
+          at = @At(value = "STORE", ordinal = 1),
+          ordinal = 1
+  )
+  private static int updatePrimaryAmplifierAgain(int amplifier, Level level, BlockPos blockPos, int i, @Nullable MobEffect primary, @Nullable MobEffect secondary){
+    @Nullable final BlockEntity blockEntity = level.getBlockEntity(blockPos);
+    if ((!(blockEntity instanceof BeaconBlockEntity)) || secondary == MobEffects.SLOW_FALLING || secondary == MobEffects.FIRE_RESISTANCE || primary == MobEffects.NIGHT_VISION) {
+      return amplifier;
+    }
+    return PotencyTier.get(blockEntity).ordinal() + amplifier;
+  }
+  @ModifyVariable(
+          method = "applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V",
+          at=@At("STORE"),
+          ordinal = 2
+  )
+  private static int updateDuration(int duration, Level level, BlockPos blockPos, int i, @Nullable MobEffect mobEffect, @Nullable MobEffect mobEffect2){
+    @Nullable final BlockEntity blockEntity = level.getBlockEntity(blockPos);
+    if (!(blockEntity instanceof BeaconBlockEntity)) return duration;
+    return 9 * PotencyTier.get(blockEntity).ordinal() + duration;
   }
 
-  // TODO Rewrite as variable and argument modifications?
-  @Redirect(
-    method = "tick(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;)V",
-    require = 1, allow = 1,
-    at = @At(value = "INVOKE", opcode = Opcodes.INVOKESTATIC,
-      target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V"))
-  private static void applyTieredEffects(
-    final Level level, final BlockPos pos, final int levels, final @Nullable MobEffect primary,
-    final @Nullable MobEffect secondary,
-    // Enclosing method parameters
-    final Level level1, final BlockPos pos1, final BlockState state, final BeaconBlockEntity beacon
-  ) {
-    TieredBeacon.applyTieredEffects(beacon, level, pos, levels, primary, secondary);
+  @ModifyConstant(
+          method = "applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V",
+          constant = @Constant(intValue = 0, ordinal = 1)
+  )
+  private static int updateSecondaryAmplifier(int amplifier, Level level, BlockPos blockPos, int i, @Nullable MobEffect primary, @Nullable MobEffect secondary){
+    @Nullable final BlockEntity blockEntity = level.getBlockEntity(blockPos);
+    if ((!(blockEntity instanceof BeaconBlockEntity)) || secondary == MobEffects.SLOW_FALLING || secondary == MobEffects.FIRE_RESISTANCE) {
+      return 0;
+    }
+    return PotencyTier.get(blockEntity).ordinal();
+  }
+
+  @Inject(
+          method = "tick(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;)V",
+          at = @At(value = "INVOKE", opcode = Opcodes.INVOKESTATIC,
+                  target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;updateBase(Lnet/minecraft/world/level/Level;III)I"))
+  private static void updateBaseAndTier(Level level, BlockPos blockPos, BlockState blockState, BeaconBlockEntity beacon, CallbackInfo ci) {
+    TieredBeacon.updateBaseAndTier(beacon, level, blockPos.getX(), blockPos.getY(), blockPos.getZ());
   }
 
   @Mixin(targets = "net.minecraft.world.level.block.entity.BeaconBlockEntity$1")

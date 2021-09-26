@@ -14,10 +14,9 @@ import org.jetbrains.annotations.Nullable;
 public interface TieredBeacon {
   PotencyTier getTier();
 
-  static int updateBaseAndTier(
+  static void updateBaseAndTier(
     final BeaconBlockEntity beacon, final Level level, final int x, final int y, final int z
   ) {
-    var levels = 0;
     var maxTier = PotencyTier.HIGH;
     var layer = 1;
 
@@ -52,16 +51,13 @@ public interface TieredBeacon {
           PotencyTier.set(beacon, maxTier);
         }
 
-        return levels;
+        return;
       }
 
-      levels = layer;
       layer++;
     }
 
     PotencyTier.set(beacon, maxTier);
-
-    return levels;
   }
 
   static void applyTieredEffects(
