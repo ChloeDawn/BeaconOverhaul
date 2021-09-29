@@ -54,6 +54,6 @@ abstract class LivingEntityMixin extends Entity {
       shift = At.Shift.BEFORE, value = "FIELD", opcode = Opcodes.PUTFIELD, ordinal = 0,
       target = "Lnet/minecraft/world/entity/LivingEntity;fallDistance:F"))
   private double dropIfCrouching(final double fallDelta) {
-    return (this.hasEffect(MobEffects.SLOW_FALLING) && !this.isCrouching()) ? fallDelta : 0.08;
+    return this.isCrouching() ? 0.08 : fallDelta;
   }
 }
