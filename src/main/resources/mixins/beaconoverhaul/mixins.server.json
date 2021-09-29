@@ -8,8 +8,9 @@
     "BeaconBlockEntityMixin",
     "BeaconBlockEntityMixin$DataAccessMixin",
     "BeaconMenuMixin",
+    "GameRulesAccessor",
+    "IntegerValueAccessor",
     "LivingEntityMixin",
-    "MobEffectAccessor",
     "PlayerMixin"
   ],
   "refmap": "mixins/beaconoverhaul/refmap.json"

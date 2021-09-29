@@ -3,7 +3,8 @@ package dev.sapphic.beacons;
 import com.google.common.collect.ObjectArrays;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import dev.sapphic.beacons.mixin.BeaconBlockEntityAccessor;
-import dev.sapphic.beacons.mixin.MobEffectAccessor;
+import dev.sapphic.beacons.mixin.GameRulesAccessor;
+import dev.sapphic.beacons.mixin.IntegerValueAccessor;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -11,17 +12,48 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public final class BeaconMobEffects implements ModInitializer {
-  public static final MobEffect LONG_REACH = MobEffectAccessor.newMobEffect(MobEffectCategory.BENEFICIAL, 0xDEF58F)
-    .addAttributeModifier(ReachEntityAttributes.REACH, "C20A0A8F-83DF-4C37-BC34-3678C24C3F01", 5.0, Operation.ADDITION)
-    .addAttributeModifier(ReachEntityAttributes.ATTACK_RANGE, "C764C44F-FC32-498B-98EB-B3262BA58B3B", 5.0, Operation.ADDITION);
+  public static final GameRules.Key<GameRules.IntegerValue> LONG_REACH_INCREMENT = GameRulesAccessor.callRegister(
+    "longReachIncrement", GameRules.Category.PLAYER, IntegerValueAccessor.callCreate(2));
+
+  public static final MobEffect LONG_REACH = new MobEffect(MobEffectCategory.BENEFICIAL, 0xDEF58F) {
+    private static double getLongReachAmount(final LivingEntity entity, final int mul) {
+      return Math.max(0, entity.level.getGameRules().getInt(LONG_REACH_INCREMENT)) * (mul + 1);
+    }
+
+    @Override
+    public void addAttributeModifiers(final LivingEntity entity, final AttributeMap attributes, final int mul) {
+      for (final var entry : this.getAttributeModifiers().entrySet()) {
+        final @Nullable AttributeInstance instance = attributes.getInstance(entry.getKey());
+
+        if (instance != null) {
+          final var modifier = entry.getValue();
+
+          instance.removeModifier(modifier);
+          instance.addPermanentModifier(new AttributeModifier(
+            modifier.getId(), this.getDescriptionId() + ' ' + mul,
+            getLongReachAmount(entity, mul), modifier.getOperation()
+          ));
+        }
+      }
+    }
+  }.addAttributeModifier(ReachEntityAttributes.ATTACK_RANGE,
+    "C764C44F-FC32-498B-98EB-B3262BA58B3B", Double.NaN, Operation.ADDITION
+  ).addAttributeModifier(ReachEntityAttributes.REACH,
+    "C20A0A8F-83DF-4C37-BC34-3678C24C3F01", Double.NaN, Operation.ADDITION
+  );
 
   public static final MobEffect NUTRITION = new MobEffect(MobEffectCategory.BENEFICIAL, 0xC75F79) {
     @Override
@@ -39,11 +71,7 @@ public final class BeaconMobEffects implements ModInitializer {
 
   static final String NAMESPACE = "beaconoverhaul";
 
-  public BeaconMobEffects() {
-    appendAdditionalEffects();
-  }
-
-  private static void appendAdditionalEffects() {
+  static {
     final var effects = BeaconBlockEntity.BEACON_EFFECTS;
 
     effects[0] = ObjectArrays.concat(effects[0], MobEffects.NIGHT_VISION);
