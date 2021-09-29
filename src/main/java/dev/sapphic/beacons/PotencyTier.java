@@ -1,6 +1,6 @@
 package dev.sapphic.beacons;
 
-import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.level.block.Block;
@@ -35,6 +35,6 @@ public enum PotencyTier {
   }
 
   private static Tag<Block> blocks(final String name) {
-    return TagRegistry.block(new ResourceLocation(BeaconMobEffects.NAMESPACE, name));
+    return TagFactory.BLOCK.create(new ResourceLocation(BeaconMobEffects.NAMESPACE, name));
   }
 }

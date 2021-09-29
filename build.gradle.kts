@@ -1,9 +1,8 @@
-import org.gradle.util.GradleVersion
 import java.time.Instant
 
 plugins {
-  id("fabric-loom") version "0.8.21"
-  id("net.nemerosa.versioning") version "be24b23"
+  id("fabric-loom") version "0.10.21"
+  id("net.nemerosa.versioning") version "2.15.0"
   id("signing")
 }
 
@@ -15,27 +14,33 @@ java {
 }
 
 loom {
-  accessWidener = file(".accesswidener")
-  refmapName = "mixins/beaconoverhaul/refmap.json"
+  accessWidenerPath.set(file(".accesswidener"))
+
+  mixin {
+    defaultRefmapName.set("mixins/beaconoverhaul/refmap.json")
+  }
+
   runs {
     configureEach {
-      vmArg("-Dmixin.debug=true")
-      vmArg("-Dmixin.debug.export.decompile=false")
-      vmArg("-Dmixin.debug.verbose=true")
-      vmArg("-Dmixin.dumpTargetOnFailure=true")
-      vmArg("-Dmixin.checks=true")
-      vmArg("-Dmixin.hotSwap=true")
+      property("mixin.debug", "true")
+      property("mixin.debug.export.decompile", "false")
+      property("mixin.debug.verbose", "false")
+      property("mixin.dumpTargetOnFailure", "true")
+      property("mixin.checks", "true")
+      property("mixin.hotSwap", "true")
     }
   }
 }
 
 repositories {
   mavenLocal()
+
   maven("https://maven.jamieswhiteshirt.com/libs-release") {
     content {
       includeGroup("com.jamieswhiteshirt")
     }
   }
+
   maven("https://maven.terraformersmc.com/releases") {
     content {
       includeGroup("com.terraformersmc")
@@ -46,14 +51,16 @@ repositories {
 dependencies {
   minecraft("com.mojang:minecraft:1.17.1")
   mappings(loom.officialMojangMappings())
-  modImplementation("net.fabricmc:fabric-loader:0.11.6")
+  modImplementation("net.fabricmc:fabric-loader:0.11.7")
   implementation("org.jetbrains:annotations:22.0.0")
-  implementation("org.checkerframework:checker-qual:3.17.0")
-  modImplementation(include(fabricApi.module("fabric-api-base", "0.37.2+1.17"))!!)
-  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.37.2+1.17"))!!)
-  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.37.2+1.17"))!!)
+  implementation("org.checkerframework:checker-qual:3.18.0")
+  modImplementation(include(fabricApi.module("fabric-api-base", "0.40.1+1.17"))!!)
+  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.40.1+1.17"))!!)
+  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.40.1+1.17"))!!)
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
-  modRuntime("com.terraformersmc:modmenu:2.0.4")
+  implementation(include("com.electronwill.night-config:core:3.6.4")!!)
+  implementation(include("com.electronwill.night-config:toml:3.6.4")!!)
+  modRuntimeOnly("com.terraformersmc:modmenu:2.0.11")
 }
 
 tasks {
@@ -100,14 +107,12 @@ tasks {
     )
   }
 
-  assemble {
-    dependsOn(versionFile)
+  remapJar {
+    remapAccessWidener.set(false)
   }
 
-  afterEvaluate {
-    remapJar {
-      remapAccessWidener.set(false)
-    }
+  assemble {
+    dependsOn(versionFile)
   }
 }
 
@@ -123,6 +128,7 @@ if (hasProperty("signing.mods.keyalias")) {
       }
 
       val file = outputs.files.singleFile
+
       ant.invokeMethod(
         "signjar", mapOf(
           "jar" to file,
@@ -133,6 +139,7 @@ if (hasProperty("signing.mods.keyalias")) {
           "preservelastmodified" to true
         )
       )
+
       signing.sign(file)
     }
   }
