@@ -112,36 +112,36 @@ tasks {
     remapAccessWidener.set(false)
   }
 
+  if (hasProperty("signing.mods.keyalias")) {
+    val alias = property("signing.mods.keyalias")
+    val keystore = property("signing.mods.keystore")
+    val password = property("signing.mods.password")
+
+    listOf(remapJar, remapSourcesJar).forEach {
+      it.get().doLast {
+        if (!project.file(keystore!!).exists()) {
+          error("Missing keystore $keystore")
+        }
+
+        val file = outputs.files.singleFile
+
+        ant.invokeMethod(
+          "signjar", mapOf(
+            "jar" to file,
+            "alias" to alias,
+            "storepass" to password,
+            "keystore" to keystore,
+            "verbose" to true,
+            "preservelastmodified" to true
+          )
+        )
+
+        signing.sign(file)
+      }
+    }
+  }
+
   assemble {
     dependsOn(versionFile)
-  }
-}
-
-if (hasProperty("signing.mods.keyalias")) {
-  val alias = property("signing.mods.keyalias")
-  val keystore = property("signing.mods.keystore")
-  val password = property("signing.mods.password")
-
-  listOf(tasks.remapJar, tasks.remapSourcesJar).forEach {
-    it.get().doLast {
-      if (!project.file(keystore!!).exists()) {
-        error("Missing keystore $keystore")
-      }
-
-      val file = outputs.files.singleFile
-
-      ant.invokeMethod(
-        "signjar", mapOf(
-          "jar" to file,
-          "alias" to alias,
-          "storepass" to password,
-          "keystore" to keystore,
-          "verbose" to true,
-          "preservelastmodified" to true
-        )
-      )
-
-      signing.sign(file)
-    }
   }
 }
