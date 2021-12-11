@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "dev.sapphic"
-version = "1.4.3+1.17"
+version = "1.5.0+1.18"
 
 java {
   withSourcesJar()
@@ -50,14 +50,14 @@ repositories {
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:1.17.1")
+  minecraft("com.mojang:minecraft:1.18.1")
   mappings(loom.officialMojangMappings())
   modImplementation("net.fabricmc:fabric-loader:0.12.11")
   implementation("org.jetbrains:annotations:23.0.0")
   implementation("org.checkerframework:checker-qual:3.20.0")
-  modImplementation(include(fabricApi.module("fabric-api-base", "0.44.0+1.17"))!!)
-  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.44.0+1.17"))!!)
-  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.44.0+1.17"))!!)
+  modImplementation(include(fabricApi.module("fabric-api-base", "0.44.0+1.18"))!!)
+  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.44.0+1.18"))!!)
+  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.44.0+1.18"))!!)
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
   implementation(include("com.electronwill.night-config:core:3.6.5")!!)
   implementation(include("com.electronwill.night-config:toml:3.6.5")!!)
@@ -67,7 +67,7 @@ dependencies {
 tasks {
   compileJava {
     with(options) {
-      release.set(16)
+      release.set(17)
       isFork = true
       isDeprecation = true
       encoding = "UTF-8"
