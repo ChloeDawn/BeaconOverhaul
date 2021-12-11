@@ -1,8 +1,8 @@
 import java.time.Instant
 
 plugins {
-  id("fabric-loom") version "0.10.21"
-  id("net.nemerosa.versioning") version "2.15.0"
+  id("fabric-loom") version "0.10.64"
+  id("net.nemerosa.versioning") version "2.15.1"
   id("signing")
 }
 
@@ -46,21 +46,22 @@ repositories {
       includeGroup("com.terraformersmc")
     }
   }
+  mavenCentral()
 }
 
 dependencies {
   minecraft("com.mojang:minecraft:1.17.1")
   mappings(loom.officialMojangMappings())
-  modImplementation("net.fabricmc:fabric-loader:0.11.7")
-  implementation("org.jetbrains:annotations:22.0.0")
-  implementation("org.checkerframework:checker-qual:3.18.0")
-  modImplementation(include(fabricApi.module("fabric-api-base", "0.40.1+1.17"))!!)
-  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.40.1+1.17"))!!)
-  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.40.1+1.17"))!!)
+  modImplementation("net.fabricmc:fabric-loader:0.12.11")
+  implementation("org.jetbrains:annotations:23.0.0")
+  implementation("org.checkerframework:checker-qual:3.20.0")
+  modImplementation(include(fabricApi.module("fabric-api-base", "0.44.0+1.17"))!!)
+  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.44.0+1.17"))!!)
+  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.44.0+1.17"))!!)
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
-  implementation(include("com.electronwill.night-config:core:3.6.4")!!)
-  implementation(include("com.electronwill.night-config:toml:3.6.4")!!)
-  modRuntimeOnly("com.terraformersmc:modmenu:2.0.11")
+  implementation(include("com.electronwill.night-config:core:3.6.5")!!)
+  implementation(include("com.electronwill.night-config:toml:3.6.5")!!)
+  modRuntimeOnly("com.terraformersmc:modmenu:2.0.14")
 }
 
 tasks {
