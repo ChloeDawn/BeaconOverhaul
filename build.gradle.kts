@@ -1,13 +1,17 @@
 import java.time.Instant
 
 plugins {
-  id("fabric-loom") version "0.10.64"
+  id(/*net.fabricmc.*/ "fabric-loom") version "0.11.32"
   id("net.nemerosa.versioning") version "2.15.1"
-  id("signing")
+  id("org.gradle.signing")
 }
 
 group = "dev.sapphic"
 version = "1.5.0+1.18"
+
+if ("CI" in System.getenv()) {
+  version = "$version-${versioning.info.build}"
+}
 
 java {
   withSourcesJar()
@@ -22,9 +26,11 @@ loom {
 
   runs {
     configureEach {
+      vmArgs("-Xmx4G", "-XX:+UseZGC")
+
       property("mixin.debug", "true")
       property("mixin.debug.export.decompile", "false")
-      property("mixin.debug.verbose", "false")
+      property("mixin.debug.verbose", "true")
       property("mixin.dumpTargetOnFailure", "true")
       property("mixin.checks", "true")
       property("mixin.hotSwap", "true")
@@ -33,8 +39,6 @@ loom {
 }
 
 repositories {
-  mavenLocal()
-
   maven("https://maven.jamieswhiteshirt.com/libs-release") {
     content {
       includeGroup("com.jamieswhiteshirt")
@@ -46,32 +50,44 @@ repositories {
       includeGroup("com.terraformersmc")
     }
   }
-  mavenCentral()
 }
 
 dependencies {
   minecraft("com.mojang:minecraft:1.18.1")
   mappings(loom.officialMojangMappings())
-  modImplementation("net.fabricmc:fabric-loader:0.12.11")
+
+  modImplementation("net.fabricmc:fabric-loader:0.13.3")
+
   implementation("org.jetbrains:annotations:23.0.0")
-  implementation("org.checkerframework:checker-qual:3.20.0")
-  modImplementation(include(fabricApi.module("fabric-api-base", "0.44.0+1.18"))!!)
-  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.44.0+1.18"))!!)
-  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.44.0+1.18"))!!)
+  implementation("org.checkerframework:checker-qual:3.21.2")
+
+  modImplementation(include(fabricApi.module("fabric-api-base", "0.46.4+1.18"))!!)
+  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.46.4+1.18"))!!)
+  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.46.4+1.18"))!!)
+
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
+
   implementation(include("com.electronwill.night-config:core:3.6.5")!!)
   implementation(include("com.electronwill.night-config:toml:3.6.5")!!)
-  modRuntimeOnly("com.terraformersmc:modmenu:2.0.14")
+
+  modRuntimeOnly("com.terraformersmc:modmenu:3.0.1")
 }
 
 tasks {
   compileJava {
     with(options) {
-      release.set(17)
-      isFork = true
       isDeprecation = true
       encoding = "UTF-8"
-      compilerArgs.addAll(listOf("-Xlint:all", "-parameters"))
+      isFork = true
+      compilerArgs.addAll(
+        listOf(
+          "-Xlint:all", "-Xlint:-processing",
+          // Enable parameter name class metadata 
+          // https://openjdk.java.net/jeps/118
+          "-parameters"
+        )
+      )
+      release.set(17)
     }
   }
 
@@ -108,40 +124,46 @@ tasks {
     )
   }
 
-  remapJar {
-    remapAccessWidener.set(false)
-  }
-
   if (hasProperty("signing.mods.keyalias")) {
     val alias = property("signing.mods.keyalias")
     val keystore = property("signing.mods.keystore")
     val password = property("signing.mods.password")
 
-    listOf(remapJar, remapSourcesJar).forEach {
-      it.get().doLast {
-        if (!project.file(keystore!!).exists()) {
-          error("Missing keystore $keystore")
-        }
-
-        val file = outputs.files.singleFile
-
-        ant.invokeMethod(
-          "signjar", mapOf(
-            "jar" to file,
-            "alias" to alias,
-            "storepass" to password,
-            "keystore" to keystore,
-            "verbose" to true,
-            "preservelastmodified" to true
-          )
+    fun Sign.antSignJar(task: Task) = task.outputs.files.forEach { file ->
+      ant.invokeMethod(
+        "signjar", mapOf(
+          "jar" to file,
+          "alias" to alias,
+          "storepass" to password,
+          "keystore" to keystore,
+          "verbose" to true,
+          "preservelastmodified" to true
         )
-
-        signing.sign(file)
-      }
+      )
     }
-  }
 
-  assemble {
-    dependsOn(versionFile)
+    val signJar by creating(Sign::class) {
+      dependsOn(remapJar)
+
+      doFirst {
+        antSignJar(remapJar.get())
+      }
+
+      sign(remapJar.get())
+    }
+
+    val signSourcesJar by creating(Sign::class) {
+      dependsOn(remapSourcesJar)
+
+      doFirst {
+        antSignJar(remapSourcesJar.get())
+      }
+
+      sign(remapSourcesJar.get())
+    }
+
+    assemble {
+      dependsOn(signJar, signSourcesJar)
+    }
   }
 }
