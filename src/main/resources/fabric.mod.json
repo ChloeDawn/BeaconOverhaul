@@ -7,10 +7,10 @@
   "license": "Apache-2.0",
   "icon": "pack.png",
   "depends": {
-    "fabric-api-base": ">=0.4.1",
-    "fabric-resource-loader-v0": ">=0.4.11",
-    "fabric-tag-extensions-v0": ">=1.2.5",
-    "fabricloader": ">=0.12.11",
+    "fabric-api-base": ">=0.4.2",
+    "fabric-resource-loader-v0": ">=0.4.14",
+    "fabric-tag-extensions-v0": ">=1.2.8",
+    "fabricloader": ">=0.13.3",
     "minecraft": ">=1.18",
     "reach-entity-attributes": ">=2.1.1"
   },
@@ -30,8 +30,8 @@
     "Daniel Amberson"
   ],
   "contact": {
-    "homepage": "https://bit.ly/3hnH9hq",
-    "sources": "https://git.io/JLPmd",
-    "issues": "https://git.io/JLPm5"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/beaconoverhaul",
+    "sources": "https://github.com/ChloeDawn/BeaconOverhaul/tree/$version",
+    "issues": "https://github.com/ChloeDawn/BeaconOverhaul/issues"
   }
 }
