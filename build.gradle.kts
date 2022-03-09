@@ -53,24 +53,28 @@ repositories {
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:1.18.1")
-  mappings(loom.officialMojangMappings())
+  minecraft("com.mojang:minecraft:1.18.2")
+  mappings(loom.layered {
+    officialMojangMappings {
+      nameSyntheticMembers = true
+    }
+  })
 
   modImplementation("net.fabricmc:fabric-loader:0.13.3")
 
   implementation("org.jetbrains:annotations:23.0.0")
   implementation("org.checkerframework:checker-qual:3.21.2")
 
-  modImplementation(include(fabricApi.module("fabric-api-base", "0.46.4+1.18"))!!)
-  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.46.4+1.18"))!!)
-  modImplementation(include(fabricApi.module("fabric-tag-extensions-v0", "0.46.4+1.18"))!!)
+  modImplementation(include(fabricApi.module("fabric-api-base", "0.47.10+1.18.2"))!!)
+  modImplementation(include(fabricApi.module("fabric-registry-sync-v0", "0.47.10+1.18.2"))!!)
+  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.47.10+1.18.2"))!!)
 
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
 
   implementation(include("com.electronwill.night-config:core:3.6.5")!!)
   implementation(include("com.electronwill.night-config:toml:3.6.5")!!)
 
-  modRuntimeOnly("com.terraformersmc:modmenu:3.0.1")
+  modRuntimeOnly("com.terraformersmc:modmenu:3.1.0")
 }
 
 tasks {

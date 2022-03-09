@@ -7,11 +7,11 @@
   "license": "Apache-2.0",
   "icon": "pack.png",
   "depends": {
-    "fabric-api-base": ">=0.4.2",
-    "fabric-resource-loader-v0": ">=0.4.14",
-    "fabric-tag-extensions-v0": ">=1.2.8",
+    "fabric-api-base": ">=0.4.3",
+    "fabric-registry-sync-v0": ">=0.9.7",
+    "fabric-resource-loader-v0": ">=0.4.17",
     "fabricloader": ">=0.13.3",
-    "minecraft": ">=1.18",
+    "minecraft": "1.18.2",
     "reach-entity-attributes": ">=2.1.1"
   },
   "entrypoints": {

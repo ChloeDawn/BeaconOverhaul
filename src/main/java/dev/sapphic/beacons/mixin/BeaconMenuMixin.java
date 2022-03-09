@@ -25,7 +25,7 @@ abstract class BeaconMenuMixin extends AbstractContainerMenu implements TieredBe
   @Override
   @Unique
   public final PotencyTier getTier() {
-    return PotencyTier.valueOf(this.beaconData.get(3));
+    return PotencyTier.values()[this.beaconData.get(3)];
   }
 
   @ModifyConstant(method = "<init>(ILnet/minecraft/world/Container;)V",
