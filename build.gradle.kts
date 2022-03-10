@@ -66,13 +66,11 @@ dependencies {
   implementation("org.checkerframework:checker-qual:3.21.2")
 
   modImplementation(include(fabricApi.module("fabric-api-base", "0.47.10+1.18.2"))!!)
+  modImplementation(include(fabricApi.module("fabric-networking-api-v1", "0.47.10+1.18.2"))!!)
   modImplementation(include(fabricApi.module("fabric-registry-sync-v0", "0.47.10+1.18.2"))!!)
   modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.47.10+1.18.2"))!!)
 
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
-
-  implementation(include("com.electronwill.night-config:core:3.6.5")!!)
-  implementation(include("com.electronwill.night-config:toml:3.6.5")!!)
 
   modRuntimeOnly("com.terraformersmc:modmenu:3.1.0")
 }

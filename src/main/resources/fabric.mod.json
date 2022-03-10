@@ -8,6 +8,7 @@
   "icon": "pack.png",
   "depends": {
     "fabric-api-base": ">=0.4.3",
+    "fabric-networking-api-v1": ">=1.0.20",
     "fabric-registry-sync-v0": ">=0.9.7",
     "fabric-resource-loader-v0": ">=0.4.17",
     "fabricloader": ">=0.13.3",
