@@ -3,6 +3,7 @@ package dev.sapphic.beacons.mixin;
 import dev.sapphic.beacons.MutableTieredBeacon;
 import dev.sapphic.beacons.PotencyTier;
 import dev.sapphic.beacons.TieredBeacon;
+import java.util.Objects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.MenuProvider;
@@ -29,43 +30,47 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.Objects;
-
 @Mixin(BeaconBlockEntity.class)
 abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvider, MutableTieredBeacon {
-  @Unique private PotencyTier tier = PotencyTier.NONE;
   @Shadow int levels;
+  @Unique private PotencyTier tier = PotencyTier.NONE;
 
   BeaconBlockEntityMixin(final BlockEntityType<?> type, final BlockPos pos, final BlockState state) {
     super(type, pos, state);
   }
 
-  @Unique
-  @Override
-  public final PotencyTier getTier() {
-    return this.tier;
-  }
-
-  @Unique
-  @Override
-  public final void setTier(final PotencyTier tier) {
-    this.tier = Objects.requireNonNull(tier);
-  }
-
   @Inject(
-    method = "tick(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;)V",
-    require = 1, allow = 1,
-    at = @At(shift = At.Shift.BY, by = 2, value = "INVOKE", opcode = Opcodes.INVOKESTATIC,
-      target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;updateBase(Lnet/minecraft/world/level/Level;III)I"),
-    locals = LocalCapture.CAPTURE_FAILHARD)
+      method =
+          "tick(" 
+              + "Lnet/minecraft/world/level/Level;" 
+              + "Lnet/minecraft/core/BlockPos;" 
+              + "Lnet/minecraft/world/level/block/state/BlockState;" 
+              + "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;" 
+              + ")V",
+      require = 1,
+      allow = 1,
+      at = @At(
+          shift = At.Shift.BY,
+          by = 2,
+          value = "INVOKE",
+          opcode = Opcodes.INVOKESTATIC,
+          target =
+              "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;" 
+                  + "updateBase(" 
+                  + "Lnet/minecraft/world/level/Level;" 
+                  + "I" 
+                  + "I" 
+                  + "I" 
+                  + ")I"),
+      locals = LocalCapture.CAPTURE_FAILHARD)
   private static void updateTier(
-    final Level level, final BlockPos pos, final BlockState state, final BeaconBlockEntity beacon,
-    final CallbackInfo ci, final int x, final int y, final int z
-  ) {
+      final Level level, final BlockPos pos, final BlockState state, final BeaconBlockEntity beacon,
+      final CallbackInfo ci, final int x, final int y, final int z) {
     var tier = PotencyTier.HIGH;
     var layerOffset = 1;
 
-    layerCheck: while (layerOffset <= 4) {
+    layerCheck:
+    while (layerOffset <= 4) {
       final var yOffset = y - layerOffset;
 
       if (yOffset < level.getMinBuildHeight()) {
@@ -108,12 +113,23 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   }
 
   @ModifyVariable(
-    method = "applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V",
-    require = 1, allow = 1,
-    at = @At(value = "STORE", opcode = Opcodes.DSTORE, ordinal = 0),
-    index = 5
-  )
-  private static double modifyEffectRadius(final double radius, final Level level, final BlockPos pos) {
+      method =
+          "applyEffects(" 
+              + "Lnet/minecraft/world/level/Level;" 
+              + "Lnet/minecraft/core/BlockPos;" 
+              + "I" 
+              + "Lnet/minecraft/world/effect/MobEffect;" 
+              + "Lnet/minecraft/world/effect/MobEffect;" 
+              + ")V",
+      require = 1,
+      allow = 1,
+      at = @At(
+          value = "STORE",
+          opcode = Opcodes.DSTORE,
+          ordinal = 0),
+      index = 5)
+  private static double modifyEffectRadius(
+      final double radius, final Level level, final BlockPos pos) {
     if (level.getBlockEntity(pos) instanceof final TieredBeacon beacon) {
       return radius + (10.0 * beacon.getTier().ordinal());
     }
@@ -122,15 +138,24 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   }
 
   @ModifyVariable(
-    method = "applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V",
-    require = 1, allow = 1,
-    at = @At(value = "STORE", opcode = Opcodes.ISTORE, ordinal = 0),
-    index = 7
-  )
+      method =
+          "applyEffects(" 
+              + "Lnet/minecraft/world/level/Level;" 
+              + "Lnet/minecraft/core/BlockPos;" 
+              + "I" 
+              + "Lnet/minecraft/world/effect/MobEffect;" 
+              + "Lnet/minecraft/world/effect/MobEffect;" 
+              + ")V",
+      require = 1,
+      allow = 1,
+      at = @At(
+          value = "STORE",
+          opcode = Opcodes.ISTORE,
+          ordinal = 0),
+      index = 7)
   private static int modifyPrimaryAmplifier(
-    final int primaryAmplifier, final Level level, final BlockPos pos, final int levels,
-    final @Nullable MobEffect primaryEffect
-  ) {
+      final int primaryAmplifier, final Level level, final BlockPos pos, final int levels,
+      final @Nullable MobEffect primaryEffect) {
     if (primaryEffect != MobEffects.NIGHT_VISION) {
       if (level.getBlockEntity(pos) instanceof final TieredBeacon beacon) { 
         return beacon.getTier().ordinal();
@@ -141,16 +166,26 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   }
 
   @ModifyVariable(
-    method = "applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V",
-    require = 1, allow = 1,
-    at = @At(value = "STORE", opcode = Opcodes.ISTORE, ordinal = 1),
-    index = 7
-  )
+      method =
+          "applyEffects(" 
+              + "Lnet/minecraft/world/level/Level;" 
+              + "Lnet/minecraft/core/BlockPos;" 
+              + "I" 
+              + "Lnet/minecraft/world/effect/MobEffect;" 
+              + "Lnet/minecraft/world/effect/MobEffect;" 
+              + ")V",
+      require = 1,
+      allow = 1,
+      at = @At(
+          value = "STORE",
+          opcode = Opcodes.ISTORE,
+          ordinal = 1),
+      index = 7)
   private static int modifyPotentPrimaryAmplifier(
-    final int primaryAmplifier, final Level level, final BlockPos pos, final int levels,
-    final @Nullable MobEffect primaryEffect, final @Nullable MobEffect secondaryEffect
-  ) {
-    if ((secondaryEffect != MobEffects.SLOW_FALLING) && (secondaryEffect != MobEffects.FIRE_RESISTANCE)) {
+      final int primaryAmplifier, final Level level, final BlockPos pos, final int levels,
+      final @Nullable MobEffect primaryEffect, final @Nullable MobEffect secondaryEffect) {
+    if ((secondaryEffect != MobEffects.SLOW_FALLING)
+        && (secondaryEffect != MobEffects.FIRE_RESISTANCE)) {
       if (level.getBlockEntity(pos) instanceof final TieredBeacon beacon) {
         return primaryAmplifier + Math.min(primaryAmplifier, beacon.getTier().ordinal());
       }
@@ -160,12 +195,23 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   }
 
   @ModifyVariable(
-    method = "applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V",
-    require = 1, allow = 1,
-    at = @At(value = "STORE", opcode = Opcodes.ISTORE, ordinal = 0),
-    index = 8
-  )
-  private static int modifyDuration(final int duration, final Level level, final BlockPos pos, final int levels) {
+      method =
+          "applyEffects(" 
+              + "Lnet/minecraft/world/level/Level;" 
+              + "Lnet/minecraft/core/BlockPos;" 
+              + "I" 
+              + "Lnet/minecraft/world/effect/MobEffect;" 
+              + "Lnet/minecraft/world/effect/MobEffect;" 
+              + ")V",
+      require = 1,
+      allow = 1,
+      at = @At(
+          value = "STORE",
+          opcode = Opcodes.ISTORE,
+          ordinal = 0),
+      index = 8)
+  private static int modifyDuration(
+      final int duration, final Level level, final BlockPos pos, final int levels) {
     if (level.getBlockEntity(pos) instanceof final TieredBeacon beacon) {
       return ((9 * (beacon.getTier().ordinal() + 1)) + (levels * 2)) * 20;
     }
@@ -175,15 +221,22 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
 
   // Cannot use ModifyArg here as we need to capture the target method parameters
   @ModifyConstant(
-    method = "applyEffects(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;ILnet/minecraft/world/effect/MobEffect;Lnet/minecraft/world/effect/MobEffect;)V",
-    require = 1, allow = 1,
-    constant = @Constant(intValue = 0, ordinal = 1)
-  )
+      method =
+          "applyEffects(" 
+              + "Lnet/minecraft/world/level/Level;" 
+              + "Lnet/minecraft/core/BlockPos;" 
+              + "I" 
+              + "Lnet/minecraft/world/effect/MobEffect;" 
+              + "Lnet/minecraft/world/effect/MobEffect;" 
+              + ")V",
+      require = 1,
+      allow = 1,
+      constant = @Constant(intValue = 0, ordinal = 1))
   private static int modifySecondaryAmplifier(
-    final int secondaryAmplifier, final Level level, final BlockPos pos, final int levels,
-    final @Nullable MobEffect primaryEffect, final @Nullable MobEffect secondaryEffect
-  ) {
-    if ((secondaryEffect != MobEffects.SLOW_FALLING) && (secondaryEffect != MobEffects.FIRE_RESISTANCE)) {
+      final int secondaryAmplifier, final Level level, final BlockPos pos, final int levels,
+      final @Nullable MobEffect primaryEffect, final @Nullable MobEffect secondaryEffect) {
+    if ((secondaryEffect != MobEffects.SLOW_FALLING)
+        && (secondaryEffect != MobEffects.FIRE_RESISTANCE)) {
       if (level.getBlockEntity(pos) instanceof final TieredBeacon beacon) {
         return beacon.getTier().ordinal();
       }
@@ -192,18 +245,32 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
     return secondaryAmplifier; // 0
   }
 
+  @Unique
+  @Override
+  public final PotencyTier getTier() {
+    return this.tier;
+  }
+
+  @Unique
+  @Override
+  public final void setTier(final PotencyTier tier) {
+    this.tier = Objects.requireNonNull(tier);
+  }
+
   @Mixin(targets = "net.minecraft.world.level.block.entity.BeaconBlockEntity$1")
   private abstract static class DataAccessMixin implements ContainerData {
-    @Shadow(aliases = "this$0") @Final BeaconBlockEntity this$0;
+    @Final
+    @Shadow(aliases = "this$0")
+    BeaconBlockEntity this$0;
 
-    @Inject(method = "get(I)I", require = 1, at = @At("HEAD"), cancellable = true)
+    @Inject(method = "get(" + "I" + ")I", require = 1, at = @At("HEAD"), cancellable = true)
     private void tryGetTier(final int index, final CallbackInfoReturnable<Integer> cir) {
       if (index == 3) {
         cir.setReturnValue(((TieredBeacon) this.this$0).getTier().ordinal());
       }
     }
 
-    @Inject(method = "set(II)V", require = 1, at = @At("HEAD"), cancellable = true)
+    @Inject(method = "set(" + "I" + "I" + ")V", require = 1, at = @At("HEAD"), cancellable = true)
     private void trySetTier(final int index, final int value, final CallbackInfo ci) {
       if (index == 3) {
         ((MutableTieredBeacon) this.this$0).setTier(PotencyTier.values()[value]);
@@ -211,7 +278,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
       }
     }
 
-    @ModifyConstant(method = "getCount()I",
+    @ModifyConstant(method = "getCount(" + ")I",
       require = 1, allow = 1,
       constant = @Constant(intValue = 3))
     private int expandDataCount(final int count) {

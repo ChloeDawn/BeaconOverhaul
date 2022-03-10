@@ -25,8 +25,14 @@ abstract class LivingEntityMixin extends Entity {
   }
 
   @Inject(
-    method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V",
-    require = 1, allow = 1, at = @At("RETURN"))
+      method =
+          "<init>("
+              + "Lnet/minecraft/world/entity/EntityType;"
+              + "Lnet/minecraft/world/level/Level;"
+              + ")V",
+      require = 1,
+      allow = 1,
+      at = @At("RETURN"))
   private void setDefaultStepHeight(final CallbackInfo ci) {
     this.defaultStepHeight = this.maxUpStep;
   }
@@ -34,7 +40,7 @@ abstract class LivingEntityMixin extends Entity {
   @Shadow
   public abstract boolean hasEffect(final MobEffect effect);
 
-  @Inject(method = "tickEffects()V", require = 1, at = @At("HEAD"))
+  @Inject(method = "tickEffects(" + ")V", require = 1, at = @At("HEAD"))
   private void updateJumpBoostStepAssist(final CallbackInfo ci) {
     if (this.hasEffect(MobEffects.JUMP)) {
       if (!this.stepIncreased) {
@@ -48,11 +54,16 @@ abstract class LivingEntityMixin extends Entity {
   }
 
   @ModifyVariable(
-    method = "travel(Lnet/minecraft/world/phys/Vec3;)V",
-    require = 1, allow = 1,
-    at = @At(
-      shift = At.Shift.BEFORE, value = "FIELD", opcode = Opcodes.PUTFIELD, ordinal = 0,
-      target = "Lnet/minecraft/world/entity/LivingEntity;fallDistance:F"))
+      method = "travel(" + "Lnet/minecraft/world/phys/Vec3;" + ")V",
+      require = 1,
+      allow = 1,
+      at =
+          @At(
+              shift = At.Shift.BEFORE,
+              value = "FIELD",
+              opcode = Opcodes.PUTFIELD,
+              ordinal = 0,
+              target = "Lnet/minecraft/world/entity/LivingEntity;" + "fallDistance:" + "F"))
   private double dropIfCrouching(final double fallDelta) {
     return this.isCrouching() ? 0.08 : fallDelta;
   }

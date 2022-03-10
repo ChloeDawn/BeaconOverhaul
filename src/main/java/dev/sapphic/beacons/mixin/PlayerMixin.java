@@ -15,7 +15,12 @@ abstract class PlayerMixin extends LivingEntity {
     super(type, level);
   }
 
-  @ModifyVariable(method = "canEat(Z)Z", require = 1, allow = 1, argsOnly = true, at = @At("HEAD"))
+  @ModifyVariable(
+      method = "canEat(" + "Z" + ")Z",
+      require = 1,
+      allow = 1,
+      argsOnly = true,
+      at = @At("HEAD"))
   private boolean orHasNutritionEffect(final boolean alwaysEdibleFood) {
     return alwaysEdibleFood || this.hasEffect(BeaconMobEffects.NUTRITION);
   }

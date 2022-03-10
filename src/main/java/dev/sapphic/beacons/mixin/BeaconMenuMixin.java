@@ -22,23 +22,32 @@ abstract class BeaconMenuMixin extends AbstractContainerMenu implements TieredBe
     super(type, id);
   }
 
+  @ModifyConstant(
+      method = "<init>(" + "I" + "Lnet/minecraft/world/Container;" + ")V",
+      require = 1,
+      allow = 1,
+      constant = @Constant(intValue = 3))
+  private static int getNewDataCount(final int dataCount) {
+    return 3 + 1;
+  }
+
   @Override
   @Unique
   public final PotencyTier getTier() {
     return PotencyTier.values()[this.beaconData.get(3)];
   }
 
-  @ModifyConstant(method = "<init>(ILnet/minecraft/world/Container;)V",
-    require = 1, allow = 1,
-    constant = @Constant(intValue = 3))
-  private static int getNewDataCount(final int dataCount) {
-    return 3 + 1;
-  }
-
   @ModifyConstant(
-    method = "<init>(ILnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
-    require = 1, allow = 1,
-    constant = @Constant(intValue = 3, ordinal = 0))
+      method =
+          "<init>("
+              + "I"
+              + "Lnet/minecraft/world/Container;"
+              + "Lnet/minecraft/world/inventory/ContainerData;"
+              + "Lnet/minecraft/world/inventory/ContainerLevelAccess;"
+              + ")V",
+      require = 1,
+      allow = 1,
+      constant = @Constant(intValue = 3, ordinal = 0))
   private int getDataPreconditionCount(final int dataCount) {
     return 3 + 1;
   }

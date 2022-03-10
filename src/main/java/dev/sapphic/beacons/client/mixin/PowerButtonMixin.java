@@ -20,7 +20,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(BeaconScreen.BeaconPowerButton.class)
 abstract class PowerButtonMixin extends BeaconScreen.BeaconScreenButton {
-  @Shadow(aliases = "this$0") @Final private BeaconScreen this$0;
+  @Final
+  @Shadow(aliases = "this$0")
+  private BeaconScreen this$0;
+
   @Shadow @Final private boolean isPrimary;
   @Shadow private MobEffect effect;
   @Shadow private Component tooltip;
@@ -39,18 +42,28 @@ abstract class PowerButtonMixin extends BeaconScreen.BeaconScreenButton {
   protected abstract void setEffect(final MobEffect mobEffect);
 
   @Redirect(
-    method = "setEffect(Lnet/minecraft/world/effect/MobEffect;)V",
-    require = 1, allow = 1,
-    at = @At(value = "INVOKE", opcode = Opcodes.INVOKEVIRTUAL,
-      target = "Lnet/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconPowerButton;createEffectDescription(Lnet/minecraft/world/effect/MobEffect;)Lnet/minecraft/network/chat/MutableComponent;"))
-  private MutableComponent createTieredTooltip(final BeaconScreen.BeaconPowerButton button, final MobEffect effect) {
+      method = "setEffect(" + "Lnet/minecraft/world/effect/MobEffect;" + ")V",
+      require = 1,
+      allow = 1,
+      at =
+          @At(
+              value = "INVOKE",
+              opcode = Opcodes.INVOKEVIRTUAL,
+              target =
+                  "Lnet/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconPowerButton;"
+                      + "createEffectDescription("
+                      + "Lnet/minecraft/world/effect/MobEffect;"
+                      + ")Lnet/minecraft/network/chat/MutableComponent;"))
+  private MutableComponent createTieredTooltip(
+      final BeaconScreen.BeaconPowerButton button, final MobEffect effect) {
     return BeaconPowerTooltips.createTooltip(this.this$0, effect, this.isUpgradeButton());
   }
 
-  @Inject(method = "updateStatus(I)V", require = 1, allow = 1, at = @At("TAIL"))
+  @Inject(method = "updateStatus(" + "I" + ")V", require = 1, allow = 1, at = @At("TAIL"))
   private void updateTooltip(final int levels, final CallbackInfo ci) {
     if (!this.isUpgradeButton()) {
-      this.tooltip = this.createTieredTooltip((BeaconScreen.BeaconPowerButton) (Object) this, this.effect);
+      this.tooltip =
+          this.createTieredTooltip((BeaconScreen.BeaconPowerButton) (Object) this, this.effect);
     }
   }
 }

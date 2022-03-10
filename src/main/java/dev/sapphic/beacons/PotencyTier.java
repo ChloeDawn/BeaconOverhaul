@@ -6,7 +6,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
 public enum PotencyTier {
-  NONE, LOW, HIGH;
+  NONE,
+  LOW,
+  HIGH;
 
   public static final TagKey<Block> LOW_POTENCY_BLOCKS = createBlockTag("low_potency");
   public static final TagKey<Block> HIGH_POTENCY_BLOCKS = createBlockTag("high_potency");
