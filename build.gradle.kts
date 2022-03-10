@@ -82,12 +82,12 @@ tasks {
       encoding = "UTF-8"
       isFork = true
       compilerArgs.addAll(
-        listOf(
-          "-Xlint:all", "-Xlint:-processing",
-          // Enable parameter name class metadata 
-          // https://openjdk.java.net/jeps/118
-          "-parameters"
-        )
+          listOf(
+              "-Xlint:all", "-Xlint:-processing",
+              // Enable parameter name class metadata 
+              // https://openjdk.java.net/jeps/118
+              "-parameters"
+          )
       )
       release.set(17)
     }
@@ -103,26 +103,26 @@ tasks {
     from("/LICENSE")
 
     manifest.attributes(
-      "Build-Timestamp" to Instant.now(),
-      "Build-Revision" to versioning.info.commit,
-      "Build-Jvm" to "${
-        System.getProperty("java.version")
-      } (${
-        System.getProperty("java.vendor")
-      } ${
-        System.getProperty("java.vm.version")
-      })",
-      "Built-By" to GradleVersion.current(),
+        "Build-Timestamp" to Instant.now(),
+        "Build-Revision" to versioning.info.commit,
+        "Build-Jvm" to "${
+          System.getProperty("java.version")
+        } (${
+          System.getProperty("java.vendor")
+        } ${
+          System.getProperty("java.vm.version")
+        })",
+        "Built-By" to GradleVersion.current(),
 
-      "Implementation-Title" to project.name,
-      "Implementation-Version" to project.version,
-      "Implementation-Vendor" to project.group,
+        "Implementation-Title" to project.name,
+        "Implementation-Version" to project.version,
+        "Implementation-Vendor" to project.group,
 
-      "Specification-Title" to "FabricMod",
-      "Specification-Version" to "1.0.0",
-      "Specification-Vendor" to project.group,
+        "Specification-Title" to "FabricMod",
+        "Specification-Version" to "1.0.0",
+        "Specification-Vendor" to project.group,
 
-      "Sealed" to "true"
+        "Sealed" to "true"
     )
   }
 
@@ -133,15 +133,14 @@ tasks {
 
     fun Sign.antSignJar(task: Task) = task.outputs.files.forEach { file ->
       ant.invokeMethod(
-        "signjar", mapOf(
+          "signjar", mapOf(
           "jar" to file,
           "alias" to alias,
           "storepass" to password,
           "keystore" to keystore,
           "verbose" to true,
           "preservelastmodified" to true
-        )
-      )
+      ))
     }
 
     val signJar by creating(Sign::class) {
