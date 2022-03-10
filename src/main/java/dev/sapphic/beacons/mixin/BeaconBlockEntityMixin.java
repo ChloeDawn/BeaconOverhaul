@@ -279,9 +279,11 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
       }
     }
 
-    @ModifyConstant(method = "getCount(" + ")I",
-      require = 1, allow = 1,
-      constant = @Constant(intValue = 3))
+    @ModifyConstant(
+        method = "getCount(" + ")I",
+        require = 1,
+        allow = 1,
+        constant = @Constant(intValue = 3))
     private int expandDataCount(final int count) {
       return 3 + 1;
     }
