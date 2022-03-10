@@ -134,7 +134,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
       return radius + (10.0 * beacon.getTier().ordinal());
     }
 
-    return radius;
+    return radius; // (levels * 10) + 10
   }
 
   @ModifyVariable(
@@ -157,7 +157,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
       final int primaryAmplifier, final Level level, final BlockPos pos, final int levels,
       final @Nullable MobEffect primaryEffect) {
     if (primaryEffect != MobEffects.NIGHT_VISION) {
-      if (level.getBlockEntity(pos) instanceof final TieredBeacon beacon) { 
+      if (level.getBlockEntity(pos) instanceof final TieredBeacon beacon) {
         return beacon.getTier().ordinal();
       }
     }
@@ -184,7 +184,8 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   private static int modifyPotentPrimaryAmplifier(
       final int primaryAmplifier, final Level level, final BlockPos pos, final int levels,
       final @Nullable MobEffect primaryEffect, final @Nullable MobEffect secondaryEffect) {
-    if ((secondaryEffect != MobEffects.SLOW_FALLING)
+    if ((primaryEffect != MobEffects.NIGHT_VISION)
+        && (secondaryEffect != MobEffects.SLOW_FALLING)
         && (secondaryEffect != MobEffects.FIRE_RESISTANCE)) {
       if (level.getBlockEntity(pos) instanceof final TieredBeacon beacon) {
         return primaryAmplifier + Math.min(primaryAmplifier, beacon.getTier().ordinal());
