@@ -31,8 +31,8 @@ abstract class GuiMixin {
               by = 5,
               ordinal = 0,
               value = "INVOKE",
-              opcode = Opcodes.INVOKEVIRTUAL,
-              target = "Ljava/util/Random;" + "nextInt(" + "I" + ")I"))
+              opcode = Opcodes.INVOKEINTERFACE,
+              target = "Lnet/minecraft/util/RandomSource;" + "nextInt(" + "I" + ")I"))
   private int noNutritionHungerShake(final int randY) {
     final var player = this.getCameraPlayer();
 

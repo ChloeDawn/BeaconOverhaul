@@ -23,7 +23,7 @@ abstract class LightTextureMixin /*implements AutoCloseable*/ {
 
   @ModifyVariable(
       method = "updateLightTexture(" + "F" + ")V",
-      index = 12,
+      index = 15,
       require = 1,
       allow = 1,
       at =
@@ -31,7 +31,8 @@ abstract class LightTextureMixin /*implements AutoCloseable*/ {
               shift = Shift.BEFORE,
               value = "INVOKE",
               opcode = Opcodes.INVOKEVIRTUAL,
-              target = "Lcom/mojang/math/Vector3f;" + "set(" + "F" + "F" + "F" + ")V"))
+              ordinal = 0,
+              target = "Lcom/mojang/math/Vector3f;" + "mul(" + "F" + ")V"))
   private float fullBrightNightVision(final float skyLight) {
     final @Nullable LocalPlayer player = this.minecraft.player;
 

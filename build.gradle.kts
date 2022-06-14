@@ -1,13 +1,13 @@
 import java.time.Instant
 
 plugins {
-  id(/*net.fabricmc.*/ "fabric-loom") version "0.11.32"
-  id("net.nemerosa.versioning") version "2.15.1"
+  id(/*net.fabricmc.*/ "fabric-loom") version "0.12.48"
+  id("net.nemerosa.versioning") version "3.0.0"
   id("org.gradle.signing")
 }
 
 group = "dev.sapphic"
-version = "1.6.0+1.18.2"
+version = "1.7.0+1.19"
 
 if ("CI" in System.getenv()) {
   version = "$version-${versioning.info.build}"
@@ -53,26 +53,26 @@ repositories {
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:1.18.2")
+  minecraft("com.mojang:minecraft:1.19")
   mappings(loom.layered {
     officialMojangMappings {
       nameSyntheticMembers = true
     }
   })
 
-  modImplementation("net.fabricmc:fabric-loader:0.13.3")
+  modImplementation("net.fabricmc:fabric-loader:0.14.7")
 
   implementation("org.jetbrains:annotations:23.0.0")
-  implementation("org.checkerframework:checker-qual:3.21.2")
+  implementation("org.checkerframework:checker-qual:3.22.1")
 
-  modImplementation(include(fabricApi.module("fabric-api-base", "0.47.10+1.18.2"))!!)
-  modImplementation(include(fabricApi.module("fabric-networking-api-v1", "0.47.10+1.18.2"))!!)
-  modImplementation(include(fabricApi.module("fabric-registry-sync-v0", "0.47.10+1.18.2"))!!)
-  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.47.10+1.18.2"))!!)
+  modImplementation(include(fabricApi.module("fabric-api-base", "0.56.0+1.19"))!!)
+  modImplementation(include(fabricApi.module("fabric-networking-api-v1", "0.56.0+1.19"))!!)
+  modImplementation(include(fabricApi.module("fabric-registry-sync-v0", "0.56.0+1.19"))!!)
+  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.56.0+1.19"))!!)
 
-  modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.1.1")!!)
+  modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.3.0")!!)
 
-  modRuntimeOnly("com.terraformersmc:modmenu:3.1.0")
+  modRuntimeOnly("com.terraformersmc:modmenu:4.0.0")
 }
 
 tasks {

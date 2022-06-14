@@ -7,13 +7,13 @@
   "license": "Apache-2.0",
   "icon": "pack.png",
   "depends": {
-    "fabric-api-base": ">=0.4.3",
-    "fabric-networking-api-v1": ">=1.0.20",
-    "fabric-registry-sync-v0": ">=0.9.7",
-    "fabric-resource-loader-v0": ">=0.4.17",
-    "fabricloader": ">=0.13.3",
-    "minecraft": "1.18.2",
-    "reach-entity-attributes": ">=2.1.1"
+    "fabric-api-base": ">=0.4.9",
+    "fabric-networking-api-v1": ">=1.0.27",
+    "fabric-registry-sync-v0": ">=0.9.16",
+    "fabric-resource-loader-v0": ">=0.5.3",
+    "fabricloader": ">=0.14.7",
+    "minecraft": "1.19",
+    "reach-entity-attributes": ">=2.3.0"
   },
   "entrypoints": {
     "main": [

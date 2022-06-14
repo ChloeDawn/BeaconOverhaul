@@ -4,8 +4,8 @@ import dev.sapphic.beacons.TieredBeacon;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 
@@ -17,7 +17,7 @@ public final class BeaconPowerTooltips {
 
   public static MutableComponent createTooltip(
       final BeaconScreen screen, final MobEffect effect, final boolean upgrade) {
-    final var component = new TranslatableComponent(effect.getDescriptionId());
+    final var component = Component.translatable(effect.getDescriptionId());
 
     if ((effect != MobEffects.SLOW_FALLING) && (effect != MobEffects.FIRE_RESISTANCE)) {
       var potency = upgrade ? 1 : 0;
