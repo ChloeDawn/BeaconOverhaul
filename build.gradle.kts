@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "dev.sapphic"
-version = "1.7.1+1.19"
+version = "1.7.2+1.19.1"
 
 if ("CI" in System.getenv()) {
   version = "$version-${versioning.info.build}"
@@ -53,7 +53,7 @@ repositories {
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:1.19")
+  minecraft("com.mojang:minecraft:1.19.1")
   mappings(loom.layered {
     officialMojangMappings {
       nameSyntheticMembers = true
@@ -66,7 +66,7 @@ dependencies {
   implementation("org.checkerframework:checker-qual:3.23.0")
 
   fun fabricApiModule(moduleName: String): Dependency =
-    fabricApi.module(moduleName, "0.58.0+1.19")
+    fabricApi.module(moduleName, "0.58.5+1.19.1")
 
   modImplementation(include(fabricApiModule("fabric-api-base"))!!)
   modImplementation(include(fabricApiModule("fabric-networking-api-v1"))!!)
@@ -75,7 +75,7 @@ dependencies {
 
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.3.0")!!)
 
-  modRuntimeOnly("com.terraformersmc:modmenu:4.0.4")
+  modRuntimeOnly("com.terraformersmc:modmenu:4.0.5")
 }
 
 tasks {
