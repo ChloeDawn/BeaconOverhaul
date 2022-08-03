@@ -1,13 +1,13 @@
 import java.time.Instant
 
 plugins {
-  id(/*net.fabricmc.*/ "fabric-loom") version "0.12.48"
+  id(/*net.fabricmc.*/ "fabric-loom") version "0.12.55"
   id("net.nemerosa.versioning") version "3.0.0"
   id("org.gradle.signing")
 }
 
 group = "dev.sapphic"
-version = "1.7.0+1.19"
+version = "1.7.1+1.19"
 
 if ("CI" in System.getenv()) {
   version = "$version-${versioning.info.build}"
@@ -60,19 +60,22 @@ dependencies {
     }
   })
 
-  modImplementation("net.fabricmc:fabric-loader:0.14.7")
+  modImplementation("net.fabricmc:fabric-loader:0.14.8")
 
   implementation("org.jetbrains:annotations:23.0.0")
-  implementation("org.checkerframework:checker-qual:3.22.1")
+  implementation("org.checkerframework:checker-qual:3.23.0")
 
-  modImplementation(include(fabricApi.module("fabric-api-base", "0.56.0+1.19"))!!)
-  modImplementation(include(fabricApi.module("fabric-networking-api-v1", "0.56.0+1.19"))!!)
-  modImplementation(include(fabricApi.module("fabric-registry-sync-v0", "0.56.0+1.19"))!!)
-  modImplementation(include(fabricApi.module("fabric-resource-loader-v0", "0.56.0+1.19"))!!)
+  fun fabricApiModule(moduleName: String): Dependency =
+    fabricApi.module(moduleName, "0.58.0+1.19")
+
+  modImplementation(include(fabricApiModule("fabric-api-base"))!!)
+  modImplementation(include(fabricApiModule("fabric-networking-api-v1"))!!)
+  modImplementation(include(fabricApiModule("fabric-registry-sync-v0"))!!)
+  modImplementation(include(fabricApiModule("fabric-resource-loader-v0"))!!)
 
   modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.3.0")!!)
 
-  modRuntimeOnly("com.terraformersmc:modmenu:4.0.0")
+  modRuntimeOnly("com.terraformersmc:modmenu:4.0.4")
 }
 
 tasks {
