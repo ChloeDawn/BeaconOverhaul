@@ -60,10 +60,10 @@ abstract class LivingEntityMixin extends Entity {
       at =
           @At(
               shift = At.Shift.BEFORE,
-              value = "FIELD",
-              opcode = Opcodes.PUTFIELD,
+              value = "INVOKE",
+              opcode = Opcodes.INVOKEVIRTUAL,
               ordinal = 0,
-              target = "Lnet/minecraft/world/entity/LivingEntity;" + "fallDistance:" + "F"))
+              target = "Lnet/minecraft/world/entity/LivingEntity;" + "resetFallDistance(" + ")V"))
   private double dropIfCrouching(final double fallDelta) {
     return this.isCrouching() ? 0.08 : fallDelta;
   }
