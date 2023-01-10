@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -99,7 +100,7 @@ public final class BeaconMobEffects implements ModInitializer {
   }
 
   private static void registerMobEffect(final String name, final MobEffect effect) {
-    Registry.register(Registry.MOB_EFFECT, new ResourceLocation(NAMESPACE, name), effect);
+    Registry.register(BuiltInRegistries.MOB_EFFECT, new ResourceLocation(NAMESPACE, name), effect);
   }
 
   @Override

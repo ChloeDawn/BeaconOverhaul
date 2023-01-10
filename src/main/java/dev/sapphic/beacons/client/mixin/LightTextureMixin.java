@@ -30,9 +30,9 @@ abstract class LightTextureMixin /*implements AutoCloseable*/ {
           @At(
               shift = Shift.BEFORE,
               value = "INVOKE",
-              opcode = Opcodes.INVOKEVIRTUAL,
+              opcode = Opcodes.INVOKESPECIAL,
               ordinal = 0,
-              target = "Lcom/mojang/math/Vector3f;" + "mul(" + "F" + ")V"))
+              target = "Lorg/joml/Vector3f;" + "<init>(" + "Lorg/joml/Vector3fc;" + ")V"))
   private float fullBrightNightVision(final float skyLight) {
     final @Nullable LocalPlayer player = this.minecraft.player;
 

@@ -3,8 +3,8 @@ package dev.sapphic.beacons.client.mixin;
 import dev.sapphic.beacons.client.BeaconPowerTooltips;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffect;
 import org.objectweb.asm.Opcodes;
@@ -24,9 +24,8 @@ abstract class PowerButtonMixin extends BeaconScreen.BeaconScreenButton {
   @Shadow(aliases = "this$0")
   private BeaconScreen this$0;
 
-  @Shadow @Final private boolean isPrimary;
-  @Shadow private MobEffect effect;
-  @Shadow private Component tooltip;
+  @Shadow
+  private MobEffect effect;
 
   PowerButtonMixin(final int x, final int y) {
     super(x, y);
@@ -62,8 +61,7 @@ abstract class PowerButtonMixin extends BeaconScreen.BeaconScreenButton {
   @Inject(method = "updateStatus(" + "I" + ")V", require = 1, allow = 1, at = @At("TAIL"))
   private void updateTooltip(final int levels, final CallbackInfo ci) {
     if (!this.isUpgradeButton()) {
-      this.tooltip =
-          this.createTieredTooltip((BeaconScreen.BeaconPowerButton) (Object) this, this.effect);
+      this.setTooltip(Tooltip.create(this.createTieredTooltip((BeaconScreen.BeaconPowerButton) (Object) this, this.effect), null));
     }
   }
 }

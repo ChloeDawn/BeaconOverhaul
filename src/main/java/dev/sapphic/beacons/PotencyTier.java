@@ -1,6 +1,6 @@
 package dev.sapphic.beacons;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -16,6 +16,6 @@ public enum PotencyTier {
   private static TagKey<Block> createBlockTag(final String name) {
     final var id = new ResourceLocation(BeaconMobEffects.NAMESPACE, name);
 
-    return TagKey.create(Registry.BLOCK_REGISTRY, id);
+    return TagKey.create(Registries.BLOCK, id);
   }
 }
