@@ -37,9 +37,6 @@ abstract class PowerButtonMixin extends BeaconScreen.BeaconScreenButton {
     return (Object) this instanceof BeaconScreen.BeaconUpgradePowerButton;
   }
 
-  @Shadow
-  protected abstract void setEffect(final MobEffect mobEffect);
-
   @Redirect(
       method = "setEffect(" + "Lnet/minecraft/world/effect/MobEffect;" + ")V",
       require = 1,

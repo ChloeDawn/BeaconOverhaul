@@ -34,7 +34,7 @@ abstract class LivingEntityMixin extends Entity {
       allow = 1,
       at = @At("RETURN"))
   private void setDefaultStepHeight(final CallbackInfo ci) {
-    this.defaultStepHeight = this.maxUpStep;
+    this.defaultStepHeight = this.maxUpStep();
   }
 
   @Shadow
@@ -44,11 +44,11 @@ abstract class LivingEntityMixin extends Entity {
   private void updateJumpBoostStepAssist(final CallbackInfo ci) {
     if (this.hasEffect(MobEffects.JUMP)) {
       if (!this.stepIncreased) {
-        this.maxUpStep = 1.0F;
+        this.setMaxUpStep(1.0F);
         this.stepIncreased = true;
       }
     } else if (this.stepIncreased) {
-      this.maxUpStep = this.defaultStepHeight;
+      this.setMaxUpStep(this.defaultStepHeight);
       this.stepIncreased = false;
     }
   }
