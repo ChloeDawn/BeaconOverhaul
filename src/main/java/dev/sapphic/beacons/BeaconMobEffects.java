@@ -5,8 +5,6 @@ import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import dev.sapphic.beacons.mixin.BeaconBlockEntityAccessor;
 import dev.sapphic.beacons.mixin.GameRulesAccessor;
 import dev.sapphic.beacons.mixin.IntegerValueAccessor;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,6 +22,9 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public final class BeaconMobEffects implements ModInitializer {
   public static final GameRules.Key<GameRules.IntegerValue> LONG_REACH_INCREMENT =
       GameRulesAccessor.callRegister(
@@ -32,7 +33,7 @@ public final class BeaconMobEffects implements ModInitializer {
   public static final MobEffect LONG_REACH =
       new MobEffect(MobEffectCategory.BENEFICIAL, 0xDEF58F) {
         private static double getLongReachAmount(final LivingEntity entity, final int mul) {
-          return Math.max(0, entity.level.getGameRules().getInt(LONG_REACH_INCREMENT)) * (mul + 1);
+          return Math.max(0, entity.level().getGameRules().getInt(LONG_REACH_INCREMENT)) * (mul + 1);
         }
 
         @Override

@@ -15,29 +15,33 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Environment(EnvType.CLIENT)
 @Mixin(Gui.class)
 abstract class GuiMixin {
-  @Shadow private int screenHeight;
+  @Shadow
+  private int screenHeight;
 
   @Shadow
-  protected abstract Player getCameraPlayer();
+  private Player getCameraPlayer() {
+    throw new AssertionError();
+  }
 
   @ModifyVariable(
-      method = "renderPlayerHealth(" + "Lcom/mojang/blaze3d/vertex/PoseStack;" + ")V",
+      method = "renderPlayerHealth(Lnet/minecraft/client/gui/GuiGraphics;)V",
       index = 24,
       require = 1,
       allow = 1,
-      at =
-          @At(
-              shift = Shift.BY,
-              by = 5,
-              ordinal = 0,
-              value = "INVOKE",
-              opcode = Opcodes.INVOKEINTERFACE,
-              target = "Lnet/minecraft/util/RandomSource;" + "nextInt(" + "I" + ")I"))
+      at = @At(
+          shift = Shift.BY,
+          by = 5,
+          ordinal = 0,
+          value = "INVOKE",
+          opcode = Opcodes.INVOKEINTERFACE,
+          target = "Lnet/minecraft/util/RandomSource;nextInt(I)I"))
   private int noNutritionHungerShake(final int randY) {
     final var player = this.getCameraPlayer();
 
-    if (!player.getFoodData().needsFood() && player.hasEffect(BeaconMobEffects.NUTRITION)) {
-      return this.screenHeight - 39;
+    if ((player != null) && !player.getFoodData().needsFood()) {
+      if (player.hasEffect(BeaconMobEffects.NUTRITION)) {
+        return this.screenHeight - 39;
+      }
     }
 
     return randY;

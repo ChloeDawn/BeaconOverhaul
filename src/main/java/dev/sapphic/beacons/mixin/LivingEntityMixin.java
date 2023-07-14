@@ -17,8 +17,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin extends Entity {
-  @Unique private float defaultStepHeight;
-  @Unique private boolean stepIncreased;
+  @Unique
+  private float defaultStepHeight;
+
+  @Unique
+  private boolean stepIncreased;
 
   LivingEntityMixin(final EntityType<?> type, final Level level) {
     super(type, level);

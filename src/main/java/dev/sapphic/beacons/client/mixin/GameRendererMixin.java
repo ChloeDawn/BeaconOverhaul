@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(GameRenderer.class)
 abstract class GameRendererMixin implements ResourceManagerReloadListener /*, AutoCloseable*/ {
   @Inject(
-      method = "getNightVisionScale(" + "Lnet/minecraft/world/entity/LivingEntity;" + "F" + ")F",
+      method = "getNightVisionScale(Lnet/minecraft/world/entity/LivingEntity;F)F",
       require = 1,
       allow = 1,
       at = @At(shift = Shift.BY, by = -2, value = "CONSTANT", args = "intValue=200"),

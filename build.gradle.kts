@@ -1,14 +1,14 @@
 import java.time.Instant
 
 plugins {
-  id(/*net.fabricmc.*/ "fabric-loom") version "1.2.5"
-  id("io.github.juuxel.loom-quiltflower") version "1.8.0"
+  id(/*net.fabricmc.*/ "fabric-loom") version "1.3.2"
+  id("io.github.juuxel.loom-quiltflower") version "1.10.0"
   id("net.nemerosa.versioning") version "3.0.0"
   id("org.gradle.signing")
 }
 
 group = "dev.sapphic"
-version = "1.7.6+1.19.4"
+version = "1.8.0+1.20"
 
 if ("CI" in System.getenv()) {
   version = "$version-${versioning.info.build}"
@@ -58,29 +58,29 @@ repositories {
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:1.19.4")
+  minecraft("com.mojang:minecraft:1.20")
   mappings(loom.layered {
     officialMojangMappings {
       nameSyntheticMembers = true
     }
   })
 
-  modImplementation("net.fabricmc:fabric-loader:0.14.19")
+  modImplementation("net.fabricmc:fabric-loader:0.14.21")
 
   implementation("org.jetbrains:annotations:24.0.1")
-  implementation("org.checkerframework:checker-qual:3.33.0")
+  implementation("org.checkerframework:checker-qual:3.35.0")
 
   fun fabricApiModule(moduleName: String): Dependency =
-    fabricApi.module(moduleName, "0.80.0+1.19.4")
+    fabricApi.module(moduleName, "0.83.0+1.20")
 
   modImplementation(include(fabricApiModule("fabric-api-base"))!!)
   modImplementation(include(fabricApiModule("fabric-networking-api-v1"))!!)
   modImplementation(include(fabricApiModule("fabric-registry-sync-v0"))!!)
   modImplementation(include(fabricApiModule("fabric-resource-loader-v0"))!!)
 
-  modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.3.2")!!)
+  modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.4.0")!!)
 
-  modRuntimeOnly("com.terraformersmc:modmenu:6.2.2")
+  modRuntimeOnly("com.terraformersmc:modmenu:7.0.1")
 }
 
 tasks {

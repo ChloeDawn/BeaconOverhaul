@@ -11,9 +11,10 @@ import net.minecraft.world.effect.MobEffects;
 
 @Environment(EnvType.CLIENT)
 public final class BeaconPowerTooltips {
-  private static final String[] EFFECT_SUFFIXES = {" II", " III", " IV"};
+  private static final String[] EFFECT_SUFFIXES = { " II", " III", " IV" };
 
-  private BeaconPowerTooltips() {}
+  private BeaconPowerTooltips() {
+  }
 
   public static MutableComponent createTooltip(
       final BeaconScreen screen, final MobEffect effect, final boolean upgrade) {

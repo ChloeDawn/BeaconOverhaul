@@ -10,8 +10,8 @@ import java.util.Set;
 
 @Mixin(BeaconBlockEntity.class)
 public interface BeaconBlockEntityAccessor {
-  @Mutable
   @Accessor("VALID_EFFECTS")
+  @Mutable
   static void setValidEffects(final Set<MobEffect> value) {
     throw new AssertionError();
   }

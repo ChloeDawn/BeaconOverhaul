@@ -6,6 +6,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.BeaconMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.MenuType;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(BeaconMenu.class)
 abstract class BeaconMenuMixin extends AbstractContainerMenu implements TieredBeacon {
-  @Shadow @Final private ContainerData beaconData;
+  @Shadow
+  @Final
+  private @MonotonicNonNull ContainerData beaconData;
 
   BeaconMenuMixin(final @Nullable MenuType<?> type, final int id) {
     super(type, id);

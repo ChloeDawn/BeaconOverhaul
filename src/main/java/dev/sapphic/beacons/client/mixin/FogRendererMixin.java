@@ -21,33 +21,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(FogRenderer.class)
 abstract class FogRendererMixin {
-  @Shadow private static float fogRed;
-  @Shadow private static float fogGreen;
-  @Shadow private static float fogBlue;
+  @Shadow
+  private static float fogRed;
+
+  @Shadow
+  private static float fogGreen;
+
+  @Shadow
+  private static float fogBlue;
 
   @Inject(
-      method =
-          "setupColor("
-              + "Lnet/minecraft/client/Camera;"
-              + "F"
-              + "Lnet/minecraft/client/multiplayer/ClientLevel;"
-              + "I"
-              + "F"
-              + ")V",
+      method = "setupColor(Lnet/minecraft/client/Camera;FLnet/minecraft/client/multiplayer/ClientLevel;IF)V",
       require = 1,
       allow = 1,
       cancellable = true,
-      at =
-          @At(
-              shift = Shift.BY,
-              by = -4,
-              value = "INVOKE",
-              opcode = Opcodes.INVOKESTATIC,
-              target =
-                  "Lnet/minecraft/client/renderer/GameRenderer;getNightVisionScale("
-                      + "Lnet/minecraft/world/entity/LivingEntity;"
-                      + "F"
-                      + ")F"))
+      at = @At(
+          shift = Shift.BY,
+          by = -4,
+          value = "INVOKE",
+          opcode = Opcodes.INVOKESTATIC,
+          target = "Lnet/minecraft/client/renderer/GameRenderer;getNightVisionScale(Lnet/minecraft/world/entity/LivingEntity;F)F"))
   private static void skipNightVisionColorShift(
       final Camera camera,
       final float tickDelta,

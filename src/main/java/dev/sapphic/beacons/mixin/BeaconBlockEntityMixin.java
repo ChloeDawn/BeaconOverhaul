@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
@@ -32,8 +33,11 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(BeaconBlockEntity.class)
 abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvider, MutableTieredBeacon {
-  @Shadow int levels;
-  @Unique private PotencyTier tier = PotencyTier.NONE;
+  @Shadow
+  int levels;
+
+  @Unique
+  private PotencyTier tier = PotencyTier.NONE;
 
   BeaconBlockEntityMixin(final BlockEntityType<?> type, final BlockPos pos, final BlockState state) {
     super(type, pos, state);
@@ -232,7 +236,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
               + ")V",
       require = 1,
       allow = 1,
-      constant = @Constant(intValue = 0, ordinal = 1))
+      constant = @Constant(/*intValue = 0, */ordinal = 1))
   private static int modifySecondaryAmplifier(
       final int secondaryAmplifier, final Level level, final BlockPos pos, final int levels,
       final @Nullable MobEffect primaryEffect, final @Nullable MobEffect secondaryEffect) {
@@ -262,7 +266,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   private abstract static class DataAccessMixin implements ContainerData {
     @Final
     @Shadow(aliases = "this$0")
-    BeaconBlockEntity this$0;
+    @MonotonicNonNull BeaconBlockEntity this$0;
 
     @Inject(method = "get(" + "I" + ")I", require = 1, at = @At("HEAD"), cancellable = true)
     private void tryGetTier(final int index, final CallbackInfoReturnable<Integer> cir) {

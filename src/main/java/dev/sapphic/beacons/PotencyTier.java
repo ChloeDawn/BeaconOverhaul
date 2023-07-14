@@ -14,8 +14,6 @@ public enum PotencyTier {
   public static final TagKey<Block> HIGH_POTENCY_BLOCKS = createBlockTag("high_potency");
 
   private static TagKey<Block> createBlockTag(final String name) {
-    final var id = new ResourceLocation(BeaconMobEffects.NAMESPACE, name);
-
-    return TagKey.create(Registries.BLOCK, id);
+    return TagKey.create(Registries.BLOCK, new ResourceLocation(BeaconMobEffects.NAMESPACE, name));
   }
 }
