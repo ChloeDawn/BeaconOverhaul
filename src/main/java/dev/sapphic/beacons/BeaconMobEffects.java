@@ -51,20 +51,17 @@ public final class BeaconMobEffects implements ModInitializer {
                       modifier.getId(),
                       this.getDescriptionId() + ' ' + mul,
                       getLongReachAmount(entity, mul),
-                      modifier.getOperation()));
+                      modifier.getOperation()
+                  )
+              );
             }
           }
         }
-      }.addAttributeModifier(
-              ReachEntityAttributes.ATTACK_RANGE,
-              "C764C44F-FC32-498B-98EB-B3262BA58B3B",
-              Double.NaN,
-              Operation.ADDITION)
-          .addAttributeModifier(
-              ReachEntityAttributes.REACH,
-              "C20A0A8F-83DF-4C37-BC34-3678C24C3F01",
-              Double.NaN,
-              Operation.ADDITION);
+      }.addAttributeModifier(ReachEntityAttributes.ATTACK_RANGE,
+          "C764C44F-FC32-498B-98EB-B3262BA58B3B", Double.NaN, Operation.ADDITION
+      ).addAttributeModifier(ReachEntityAttributes.REACH,
+          "C20A0A8F-83DF-4C37-BC34-3678C24C3F01", Double.NaN, Operation.ADDITION
+      );
 
   public static final MobEffect NUTRITION =
       new MobEffect(MobEffectCategory.BENEFICIAL, 0xC75F79) {
@@ -97,7 +94,8 @@ public final class BeaconMobEffects implements ModInitializer {
     effects[3] = ObjectArrays.concat(effects[3], MobEffects.SLOW_FALLING);
 
     BeaconBlockEntityAccessor.setValidEffects(
-        Arrays.stream(effects).flatMap(Arrays::stream).collect(Collectors.toSet()));
+        Arrays.stream(effects).flatMap(Arrays::stream).collect(Collectors.toSet())
+    );
   }
 
   private static void registerMobEffect(final String name, final MobEffect effect) {

@@ -37,12 +37,12 @@ abstract class PowerButtonMixin extends BeaconScreen.BeaconScreenButton {
     this.setTooltip(Tooltip.create(BeaconPowerTooltips.createTooltip(this.this$0, effect, this.upgrade), null));
   }
 
-  @Inject(method = "setEffect(Lnet/minecraft/world/effect/MobEffect;)V", require = 1, allow = 1, at = @At("RETURN"))
+  @Inject(method = "setEffect(Lnet/minecraft/world/effect/MobEffect;)V", at = @At("RETURN"), require = 1, allow = 1)
   private void setTieredTooltip(final MobEffect effect, final CallbackInfo ci) {
     this.setTieredTooltip(this.effect);
   }
 
-  @Inject(method = "updateStatus(I)V", require = 1, allow = 1, at = @At("TAIL"))
+  @Inject(method = "updateStatus(I)V", at = @At("TAIL"), require = 1, allow = 1)
   private void updateTieredTooltip(final CallbackInfo ci) {
     if (!this.upgrade) {
       this.setTieredTooltip(this.effect);

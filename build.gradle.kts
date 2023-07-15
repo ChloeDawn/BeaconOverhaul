@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "dev.sapphic"
-version = "1.8.0+1.20"
+version = "1.8.1+1.20"
 
 if ("CI" in System.getenv()) {
   version = "$version-${versioning.info.build}"
@@ -58,7 +58,7 @@ repositories {
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:1.20")
+  minecraft("com.mojang:minecraft:1.20.1")
   mappings(loom.layered {
     officialMojangMappings {
       nameSyntheticMembers = true
@@ -71,7 +71,7 @@ dependencies {
   implementation("org.checkerframework:checker-qual:3.35.0")
 
   fun fabricApiModule(moduleName: String): Dependency =
-    fabricApi.module(moduleName, "0.83.0+1.20")
+    fabricApi.module(moduleName, "0.85.0+1.20.1")
 
   modImplementation(include(fabricApiModule("fabric-api-base"))!!)
   modImplementation(include(fabricApiModule("fabric-networking-api-v1"))!!)

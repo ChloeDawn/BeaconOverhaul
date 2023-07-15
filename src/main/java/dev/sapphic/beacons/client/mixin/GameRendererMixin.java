@@ -18,14 +18,11 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 abstract class GameRendererMixin implements ResourceManagerReloadListener /*, AutoCloseable*/ {
   @Inject(
       method = "getNightVisionScale(Lnet/minecraft/world/entity/LivingEntity;F)F",
-      require = 1,
-      allow = 1,
       at = @At(shift = Shift.BY, by = -2, value = "CONSTANT", args = "intValue=200"),
-      locals = LocalCapture.CAPTURE_FAILHARD,
-      cancellable = true)
+      locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true, require = 1, allow = 1)
   private static void noNightVisionFlickerWhenAmbient(
-      final LivingEntity entity, final float partialTick,
-      final CallbackInfoReturnable<Float> cir, final MobEffectInstance effect) {
+      final LivingEntity entity, final float partialTick, final CallbackInfoReturnable<Float> cir,
+      final MobEffectInstance effect) {
     if (effect.isAmbient()) {
       cir.setReturnValue(1.0F);
     }

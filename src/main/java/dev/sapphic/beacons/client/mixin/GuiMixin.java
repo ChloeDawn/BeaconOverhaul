@@ -25,16 +25,10 @@ abstract class GuiMixin {
 
   @ModifyVariable(
       method = "renderPlayerHealth(Lnet/minecraft/client/gui/GuiGraphics;)V",
-      index = 24,
-      require = 1,
-      allow = 1,
       at = @At(
-          shift = Shift.BY,
-          by = 5,
-          ordinal = 0,
-          value = "INVOKE",
-          opcode = Opcodes.INVOKEINTERFACE,
-          target = "Lnet/minecraft/util/RandomSource;nextInt(I)I"))
+          target = "Lnet/minecraft/util/RandomSource;nextInt(I)I",
+          ordinal = 0, shift = Shift.BY, by = 5,value = "INVOKE", opcode = Opcodes.INVOKEINTERFACE),
+      index = 24, require = 1, allow = 1)
   private int noNutritionHungerShake(final int randY) {
     final var player = this.getCameraPlayer();
 

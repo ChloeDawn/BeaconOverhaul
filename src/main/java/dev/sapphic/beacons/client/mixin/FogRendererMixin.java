@@ -31,22 +31,15 @@ abstract class FogRendererMixin {
   private static float fogBlue;
 
   @Inject(
-      method = "setupColor(Lnet/minecraft/client/Camera;FLnet/minecraft/client/multiplayer/ClientLevel;IF)V",
-      require = 1,
-      allow = 1,
-      cancellable = true,
+      method = "setupColor(Lnet/minecraft/client/Camera;F"
+          + "Lnet/minecraft/client/multiplayer/ClientLevel;IF)V",
       at = @At(
-          shift = Shift.BY,
-          by = -4,
-          value = "INVOKE",
-          opcode = Opcodes.INVOKESTATIC,
-          target = "Lnet/minecraft/client/renderer/GameRenderer;getNightVisionScale(Lnet/minecraft/world/entity/LivingEntity;F)F"))
+          target = "Lnet/minecraft/client/renderer/GameRenderer;"
+              + "getNightVisionScale(Lnet/minecraft/world/entity/LivingEntity;F)F",
+          shift = Shift.BY, by = -4, value = "INVOKE", opcode = Opcodes.INVOKESTATIC),
+      require = 1, allow = 1, cancellable = true)
   private static void skipNightVisionColorShift(
-      final Camera camera,
-      final float tickDelta,
-      final ClientLevel level,
-      final int renderDistance,
-      final float shade,
+      final Camera camera, final float tickDelta, final ClientLevel level, final int renderDistance, final float shade,
       final CallbackInfo info) {
     final @Nullable MobEffectInstance nightVision =
         ((LivingEntity) camera.getEntity()).getEffect(MobEffects.NIGHT_VISION);

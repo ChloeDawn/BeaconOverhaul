@@ -13,10 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 abstract class ScreenEffectRendererMixin {
   @Inject(
       method = "renderFire(Lnet/minecraft/client/Minecraft;Lcom/mojang/blaze3d/vertex/PoseStack;)V",
-      require = 1,
-      allow = 1,
-      at = @At("HEAD"),
-      cancellable = true)
+      at = @At("HEAD"), require = 1, allow = 1, cancellable = true)
   private static void omitFireOverlayIfResistant(final Minecraft mc, final PoseStack stack, final CallbackInfo ci) {
     if ((mc.player != null) && mc.player.hasEffect(MobEffects.FIRE_RESISTANCE)) {
       ci.cancel();
