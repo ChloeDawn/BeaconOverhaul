@@ -60,7 +60,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
       method =
           "tick(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;"
               + "Lnet/minecraft/world/level/block/state/BlockState;"
-              + "/minecraft/world/level/block/entity/BeaconBlockEntity;)V",
+              + "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;)V",
       at = @At(
           target = "Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;"
               + "updateBase(Lnet/minecraft/world/level/Level;III)I",
