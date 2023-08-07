@@ -39,7 +39,7 @@ abstract class LivingEntityMixin extends Entity {
 
   @Inject(method = "tickEffects()V", at = @At("HEAD"), require = 1)
   private void updateJumpBoostStepAssist(final CallbackInfo ci) {
-    if (this.hasEffect(MobEffects.JUMP)) {
+    if (this.hasEffect(MobEffects.JUMP) && !this.isCrouching()) {
       if (!this.stepIncreased) {
         this.setMaxUpStep(1.0F);
         this.stepIncreased = true;
