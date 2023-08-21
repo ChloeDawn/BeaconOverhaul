@@ -160,7 +160,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
         && (secondaryEffect != MobEffects.SLOW_FALLING)
         && (secondaryEffect != MobEffects.FIRE_RESISTANCE)) {
       if (level.getBlockEntity(pos) instanceof final TieredBeacon beacon) {
-        return primaryAmplifier + 1 + Math.min(primaryAmplifier, beacon.getTier().ordinal());
+        return primaryAmplifier + beacon.getTier().ordinal();
       }
     }
 
