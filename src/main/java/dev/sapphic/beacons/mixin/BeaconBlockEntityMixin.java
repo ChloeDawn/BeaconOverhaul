@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
@@ -188,7 +189,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
         && (secondaryEffect != MobEffects.SLOW_FALLING)
         && (secondaryEffect != MobEffects.FIRE_RESISTANCE)) {
       if (level.getBlockEntity(pos) instanceof final TieredBeacon beacon) {
-        return primaryAmplifier + 1 + Math.min(primaryAmplifier, beacon.getTier().ordinal());
+        return primaryAmplifier + beacon.getTier().ordinal();
       }
     }
 
@@ -262,6 +263,7 @@ abstract class BeaconBlockEntityMixin extends BlockEntity implements MenuProvide
   private abstract static class DataAccessMixin implements ContainerData {
     @Final
     @Shadow(aliases = "this$0")
+    @MonotonicNonNull
     BeaconBlockEntity this$0;
 
     @Inject(method = "get(" + "I" + ")I", require = 1, at = @At("HEAD"), cancellable = true)
